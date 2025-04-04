@@ -42,48 +42,48 @@ export default async function Home() {
     <main className="min-h-screen flex flex-col">
       <PublicNav />
 
-      <section className="py-20 bg-background text-center">
-        <div className="container">
+      <section className="py-12 md:py-20 bg-background text-center px-4">
+        <div className="container mx-auto">
           <p className="text-sm text-muted-foreground mb-4">April 10, 2025 • Abode Islamic Centre</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             National Seminar on
             <br />
             <span className="text-emerald-500">Numerical Inimitability</span> in{" "}
             <span className="text-sky-500">the Holy Quran</span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
             Evidence of Divine Precision through mathematical patterns and numerical structures, revealing the
             miraculous nature of the sacred text.
           </p>
-          <div className="flex justify-center gap-4">
-            <Button asChild size="lg">
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button asChild size="lg" className="w-full sm:w-auto">
               <Link href="/register">Register Now</Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
               <Link href="/submit">Submit Abstract</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      <section className="py-12 bg-muted">
-        <div className="container">
+      <section className="py-12 bg-muted px-4">
+        <div className="container mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8">Seminar Starting In</h2>
-          <div className="grid grid-cols-4 max-w-md mx-auto gap-4 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-4 max-w-md mx-auto gap-4 text-center">
             <div className="bg-background rounded-lg p-4">
-              <div className="text-3xl font-bold text-emerald-500">{Math.floor(daysRemaining / 30)}</div>
+              <div className="text-2xl sm:text-3xl font-bold text-emerald-500">{Math.floor(daysRemaining / 30)}</div>
               <div className="text-sm text-muted-foreground">Days</div>
             </div>
             <div className="bg-background rounded-lg p-4">
-              <div className="text-3xl font-bold text-emerald-500">{Math.floor((daysRemaining % 30) / 7)}</div>
+              <div className="text-2xl sm:text-3xl font-bold text-emerald-500">{Math.floor((daysRemaining % 30) / 7)}</div>
               <div className="text-sm text-muted-foreground">Hours</div>
             </div>
             <div className="bg-background rounded-lg p-4">
-              <div className="text-3xl font-bold text-emerald-500">{Math.floor((daysRemaining % 7) * 24)}</div>
+              <div className="text-2xl sm:text-3xl font-bold text-emerald-500">{Math.floor((daysRemaining % 7) * 24)}</div>
               <div className="text-sm text-muted-foreground">Minutes</div>
             </div>
             <div className="bg-background rounded-lg p-4">
-              <div className="text-3xl font-bold text-emerald-500">
+              <div className="text-2xl sm:text-3xl font-bold text-emerald-500">
                 {Math.floor((((daysRemaining % 7) * 24) % 1) * 60)}
               </div>
               <div className="text-sm text-muted-foreground">Seconds</div>
@@ -92,18 +92,18 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="py-16">
-        <div className="container">
-          <h2 className="text-2xl font-bold text-center mb-12">About the Seminar</h2>
-          <p className="text-center max-w-3xl mx-auto mb-12">
+      <section className="py-12 md:py-16 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-8 md:mb-12">About the Seminar</h2>
+          <p className="text-center max-w-3xl mx-auto mb-8 md:mb-12 text-base sm:text-lg">
             The National Seminar on Numerical Inimitability in the Holy Quran - Evidence of Divine Precision is a
             one-day seminar organized by Abode Islamic Centre under the QLF Project. This seminar aims to explore the
             profound numerical patterns in the Quran, highlighting their role as evidence of divine precision and
             authenticity.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="border rounded-lg p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="border rounded-lg p-4 md:p-6">
               <h3 className="text-lg font-semibold mb-2">Event Details</h3>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
@@ -123,7 +123,7 @@ export default async function Home() {
               </ul>
             </div>
 
-            <div className="border rounded-lg p-6">
+            <div className="border rounded-lg p-4 md:p-6">
               <h3 className="text-lg font-semibold mb-2">Venue</h3>
               <p>{seminarInfo.venue}</p>
               <p className="text-sm text-muted-foreground mt-2">
@@ -131,7 +131,7 @@ export default async function Home() {
               </p>
             </div>
 
-            <div className="border rounded-lg p-6">
+            <div className="border rounded-lg p-4 md:p-6">
               <h3 className="text-lg font-semibold mb-2">Submissions</h3>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
@@ -152,41 +152,41 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-muted">
-        <div className="container">
-          <h2 className="text-2xl font-bold text-center mb-12">Speakers & Panelists</h2>
-          <p className="text-center mb-12">
+      <section className="py-12 md:py-16 bg-muted px-4">
+        <div className="container mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-8 md:mb-12">Speakers & Panelists</h2>
+          <p className="text-center mb-8 md:mb-12 text-base sm:text-lg">
             Join us for this groundbreaking academic exploration featuring esteemed scholars and researchers.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-background rounded-lg p-6 text-center">
-              <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-emerald-500 text-2xl">👤</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="bg-background rounded-lg p-4 md:p-6 text-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-emerald-500 text-xl sm:text-2xl">👤</span>
               </div>
               <h3 className="font-semibold">Prof. Jamal Abdul Rahman</h3>
               <p className="text-sm text-muted-foreground">Director of Center for Quranic Studies</p>
             </div>
 
-            <div className="bg-background rounded-lg p-6 text-center">
-              <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-emerald-500 text-2xl">👤</span>
+            <div className="bg-background rounded-lg p-4 md:p-6 text-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-emerald-500 text-xl sm:text-2xl">👤</span>
               </div>
               <h3 className="font-semibold">Suhail Hidaya Hudawi</h3>
               <p className="text-sm text-muted-foreground">Dean, Kulliyyah of Qur'an & Sunnah</p>
             </div>
 
-            <div className="bg-background rounded-lg p-6 text-center">
-              <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-emerald-500 text-2xl">👤</span>
+            <div className="bg-background rounded-lg p-4 md:p-6 text-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-emerald-500 text-xl sm:text-2xl">👤</span>
               </div>
               <h3 className="font-semibold">Shuhaibul Haitami</h3>
               <p className="text-sm text-muted-foreground">Professor of Nanhi darussalam</p>
             </div>
 
-            <div className="bg-background rounded-lg p-6 text-center">
-              <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-emerald-500 text-2xl">👤</span>
+            <div className="bg-background rounded-lg p-4 md:p-6 text-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-emerald-500 text-xl sm:text-2xl">👤</span>
               </div>
               <h3 className="font-semibold">Dr. Abdul Qayoom</h3>
               <p className="text-sm text-muted-foreground">Ass. Professor PTM Govt College Perinthalmanna</p>
@@ -195,11 +195,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="py-16">
-        <div className="container">
-          <h2 className="text-2xl font-bold text-center mb-12">Important Dates</h2>
+      <section className="py-12 md:py-16 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-8 md:mb-12">Important Dates</h2>
           <div className="max-w-2xl mx-auto">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="text-right font-medium">Abstract Submission Deadline:</div>
               <div>March 21, 2025</div>
 
@@ -217,7 +217,7 @@ export default async function Home() {
             </div>
 
             <div className="mt-8 text-center">
-              <Button asChild>
+              <Button asChild className="w-full sm:w-auto">
                 <Link href="/register">Register for the Seminar</Link>
               </Button>
             </div>

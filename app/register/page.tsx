@@ -7,10 +7,10 @@ export default function RegisterPage() {
     <main className="min-h-screen flex flex-col">
       <PublicNav />
 
-      <section className="py-12">
-        <div className="container">
-          <h1 className="text-3xl font-bold text-center mb-4">Register for the Seminar</h1>
-          <p className="text-center text-muted-foreground mb-12">
+      <section className="py-8 md:py-12 px-4">
+        <div className="container mx-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center mb-4">Register for the Seminar</h1>
+          <p className="text-center text-muted-foreground mb-8 md:mb-12 text-base sm:text-lg">
             Join us for this groundbreaking academic exploration of numerical patterns in the Holy Quran.
           </p>
 
@@ -18,13 +18,13 @@ export default function RegisterPage() {
         </div>
       </section>
 
-      <section className="py-12 bg-muted">
-        <div className="container">
-          <h2 className="text-2xl font-bold text-center mb-8">Registration Information</h2>
+      <section className="py-8 md:py-12 bg-muted px-4">
+        <div className="container mx-auto">
+          <h2 className="text-xl sm:text-2xl font-bold text-center mb-6 md:mb-8">Registration Information</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Fees & Payment</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-4xl mx-auto">
+            <div className="bg-background rounded-lg p-4 md:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold mb-4">Fees & Payment</h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span>Academics/Professionals:</span>
@@ -42,8 +42,8 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div>
-              <h3 className="text-xl font-semibold mb-4">What's Included</h3>
+            <div className="bg-background rounded-lg p-4 md:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold mb-4">What's Included</h3>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
                   <span>•</span>

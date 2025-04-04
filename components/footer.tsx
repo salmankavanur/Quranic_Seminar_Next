@@ -5,7 +5,7 @@ export function Footer() {
 
   return (
     <footer className="bg-background border-t border-border">
-      <div className="container py-12">
+      <div className="container py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold tracking-tight">
@@ -40,25 +40,25 @@ export function Footer() {
           <div>
             <h4 className="font-medium mb-4">Our Partners</h4>
             <div className="grid grid-cols-3 gap-4">
-              <div className="aspect-square bg-white dark:bg-gray-800 rounded-full border-2 border-seminar-gold overflow-hidden flex items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="aspect-square bg-white dark:bg-gray-800 rounded-full border-2 border-seminar-gold overflow-hidden flex items-center justify-center shadow-sm hover:shadow-md transition-shadow max-w-[80px] sm:max-w-full">
                 <img 
                   src="/images/logo round.png" 
                   alt="Akode Islamic Centre" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-2"
                 />
               </div>
-              <div className="aspect-square bg-white dark:bg-white rounded-full border-2 border-seminar-gold overflow-hidden flex items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="aspect-square bg-white dark:bg-white rounded-full border-2 border-seminar-gold overflow-hidden flex items-center justify-center shadow-sm hover:shadow-md transition-shadow max-w-[80px] sm:max-w-full">
                 <img 
                   src="/images/university-logo.png" 
                   alt="University of Calicut" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-2"
                 />
               </div>
-              <div className="aspect-square bg-white dark:bg-gray-800 rounded-full border-2 border-seminar-gold overflow-hidden flex items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="aspect-square bg-white dark:bg-gray-800 rounded-full border-2 border-seminar-gold overflow-hidden flex items-center justify-center shadow-sm hover:shadow-md transition-shadow max-w-[80px] sm:max-w-full">
                 <img 
                   src="/images/union-logo.jpg" 
                   alt="Sa'da Students Union - Islamic Da'wa Academy" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
