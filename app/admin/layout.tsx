@@ -8,8 +8,10 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
+  const cookieStore = await cookies(); // ✅ Await the cookies() call
+
   // Check if we're on the login page
-  const isLoginPage = cookies().get("__pathname")?.value === "/admin/login"
+  const isLoginPage = cookieStore.get("__pathname")?.value === "/admin/login"
 
   // If we're on the login page, don't show the admin nav
   if (isLoginPage) {
@@ -17,7 +19,7 @@ export default async function AdminLayout({
   }
 
   // Check if user is authenticated by checking for session cookie
-  const sessionCookie = cookies().get("session_id")
+  const sessionCookie = cookieStore.get("session_id")
 
   if (!sessionCookie) {
     redirect("/admin/login")
@@ -30,4 +32,3 @@ export default async function AdminLayout({
     </div>
   )
 }
-

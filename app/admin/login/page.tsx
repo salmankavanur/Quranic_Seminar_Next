@@ -103,14 +103,14 @@ Password: ${result.credentials.password}`,
             />
           </div>
 
-          <div className="text-sm text-gray-400">Default credentials: admin@example.com / password123</div>
+          {/* <div className="text-sm text-gray-400">Default credentials: admin@example.com / password123</div> */}
 
           <div className="flex flex-col gap-2">
             <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700" disabled={isLoading}>
               {isLoading ? "Logging in..." : "Login"}
             </Button>
 
-            <Button
+            {/* <Button
               type="button"
               variant="outline"
               className="w-full border-gray-700 text-gray-300"
@@ -118,7 +118,7 @@ Password: ${result.credentials.password}`,
               disabled={isLoading}
             >
               Create Admin User
-            </Button>
+            </Button> */}
           </div>
         </form>
       </CardContent>
