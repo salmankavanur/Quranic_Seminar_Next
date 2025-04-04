@@ -26,8 +26,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div className="font-medium">Email</div>
-                      <div className="text-sm text-muted-foreground">contact@numericalquran.org</div>
-                      <div className="text-sm text-muted-foreground">info@abodecentre.org</div>
+                      <div className="text-sm text-muted-foreground">quraniclearningfestival@gmail.com</div>
+                      <div className="text-sm text-muted-foreground">islamiccentre.akod@gmail.com</div>
                     </div>
                   </div>
 
@@ -37,8 +37,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div className="font-medium">Phone</div>
-                      <div className="text-sm text-muted-foreground">+91 XXXXX XXXXX</div>
-                      <div className="text-sm text-muted-foreground">+91 XXXXX XXXXX</div>
+                      <div className="text-sm text-muted-foreground">+91 70345 46331</div>
+                      <div className="text-sm text-muted-foreground">+91 62352 04207</div>
                     </div>
                   </div>
 
@@ -49,8 +49,9 @@ export default function ContactPage() {
                     <div>
                       <div className="font-medium">Address</div>
                       <div className="text-sm text-muted-foreground">Abode Islamic Centre</div>
-                      <div className="text-sm text-muted-foreground">Oorkadave</div>
-                      <div className="text-sm text-muted-foreground">Kerala, India</div>
+                      <div className="text-sm text-muted-foreground">Virippadam, Akode</div>
+                      <div className="text-sm text-muted-foreground">Vazhakkad via, Malappuram</div>
+                      <div className="text-sm text-muted-foreground">Kerala, India - 673640</div>
                     </div>
                   </div>
                 </div>

@@ -181,8 +181,8 @@ export default function CertificatesPage() {
             </p>
             <p className="mt-2">
               If you have any issues downloading your certificate, please contact us at{" "}
-              <a href="mailto:contact@numericalquran.org" className="text-primary">
-                contact@numericalquran.org
+              <a href="mailto:quraniclearningfestival@gmail.com" className="text-primary">
+                quraniclearningfestival@gmail.com
               </a>
               .
             </p>

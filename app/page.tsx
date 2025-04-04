@@ -19,7 +19,7 @@ async function getSeminarInfo() {
         abstract_deadline: new Date("2025-03-21"),
         paper_deadline: new Date("2025-04-08"),
         venue: "Abode Islamic Centre, Oorkadave, Kerala, India",
-        contact_info: { email: "contact@numericalquran.org", phone: "+91 XXXXX XXXXX" },
+        contact_info: { email: "quraniclearningfestival@gmail.com", phone: "+91 XXXXX XXXXX" },
       }
     )
   } catch (error) {
@@ -29,7 +29,7 @@ async function getSeminarInfo() {
       abstract_deadline: new Date("2025-03-21"),
       paper_deadline: new Date("2025-04-08"),
       venue: "Abode Islamic Centre, Oorkadave, Kerala, India",
-      contact_info: { email: "contact@numericalquran.org", phone: "+91 XXXXX XXXXX" },
+      contact_info: { email: "quraniclearningfestival@gmail.com", phone: "+91 XXXXX XXXXX" },
     }
   }
 }

@@ -66,8 +66,8 @@ export async function initializeDatabase() {
           paper_deadline: new Date("2025-04-08"),
           venue: "Abode Islamic Centre, Oorkadave, Kerala, India",
           contact_info: {
-            email: "contact@numericalquran.org",
-            phone: "+91 XXXXX XXXXX",
+            email: "quraniclearningfestival@gmail.com",
+            phone: "+91 7034546331",
           },
           created_at: new Date(),
         })
