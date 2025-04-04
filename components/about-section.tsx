@@ -1,3 +1,5 @@
+import { MapPin, Clock, Calendar, Users, Languages } from "lucide-react"
+
 export function AboutSection() {
   return (
     <section className="py-16 bg-background">
@@ -12,7 +14,10 @@ export function AboutSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <div className="bg-muted/30 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <h3 className="text-xl font-semibold mb-4 text-seminar-gold">Event Details</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <Calendar className="w-5 h-5 text-seminar-gold" />
+              <h3 className="text-xl font-semibold text-seminar-gold">Event Details</h3>
+            </div>
             <ul className="space-y-3">
               <li className="flex flex-col">
                 <span className="font-medium">Date:</span>
@@ -30,15 +35,33 @@ export function AboutSection() {
           </div>
 
           <div className="bg-muted/30 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <h3 className="text-xl font-semibold mb-4 text-seminar-gold">Venue</h3>
-            <p className="text-muted-foreground mb-4">Abode Islamic Centre, Oorkadave, Kerala, India</p>
-            <p className="text-sm text-muted-foreground italic">
-              (Complete address will be sent to registered participants)
-            </p>
+            <div className="flex items-center gap-2 mb-4">
+              <MapPin className="w-5 h-5 text-seminar-gold" />
+              <h3 className="text-xl font-semibold text-seminar-gold">Venue</h3>
+            </div>
+            <div className="space-y-3">
+              <div className="space-y-2">
+                <h4 className="font-medium">Abode Islamic Centre</h4>
+                <address className="text-muted-foreground not-italic leading-relaxed">
+                  Virippadam, Akode<br />
+                  Vazhakkad, Malappuram<br />
+                  Kerala, India
+                </address>
+              </div>
+              <div className="pt-2 border-t border-border">
+                <p className="text-sm text-muted-foreground">
+                  <Clock className="w-4 h-4 inline-block mr-1 mb-1" />
+                  Registration opens at 8:30 AM
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="bg-muted/30 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <h3 className="text-xl font-semibold mb-4 text-seminar-gold">Submissions</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <Users className="w-5 h-5 text-seminar-gold" />
+              <h3 className="text-xl font-semibold text-seminar-gold">Submissions</h3>
+            </div>
             <ul className="space-y-3">
               <li className="flex flex-col">
                 <span className="font-medium">Abstract:</span>
@@ -49,7 +72,10 @@ export function AboutSection() {
                 <span className="text-muted-foreground">4000 to 6000 words</span>
               </li>
               <li className="flex flex-col">
-                <span className="font-medium">Languages:</span>
+                <div className="flex items-center gap-2">
+                  <Languages className="w-4 h-4 text-muted-foreground" />
+                  <span className="font-medium">Languages:</span>
+                </div>
                 <span className="text-muted-foreground">English or Malayalam</span>
               </li>
             </ul>
