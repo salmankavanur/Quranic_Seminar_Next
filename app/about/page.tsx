@@ -2,6 +2,38 @@ import { PublicNav } from "@/components/public-nav"
 import { Footer } from "@/components/footer"
 import { CalendarIcon, UserIcon, MapPinIcon, BookOpenIcon } from "lucide-react"
 
+// Import speakers data
+const speakers = [
+  {
+    name: "Suhail Hidaya Hudawi",
+    role: "Moderator",
+    designation: "Dean, Kulliyyah of Qur'an & Sunnah",
+    imagePath: "/images/Suhail Hidaya Hudawi.jpeg",
+    description: "Suhail Hidaya Hudawi is a distinguished scholar specializing in Quranic studies with extensive experience in Islamic education and research."
+  },
+  {
+    name: "Shuhaibul Haitami",
+    role: "Panelist",
+    designation: "Professor, Nandhi Darussalam",
+    imagePath: "/images/shuhaibul haithami.jpeg",
+    description: "A respected academic with significant contributions to Islamic scholarship and research."
+  },
+  {
+    name: "Dr. Abdul Qayoom",
+    role: "Panelist",
+    designation: "Ass. Professor, PTM Govt College Perinthalmanna",
+    imagePath: "/images/Dr. Abdul Qayoom.jpeg",
+    description: "Accomplished researcher with expertise in comparative religious studies and Quranic analysis."
+  },
+  {
+    name: "Salam Faisy Olavattur",
+    role: "Panelist",
+    designation: "Iritaq, Academic Senate Member",
+    imagePath: "/images/Salam Faisy Olavattur .jpeg",
+    description: "Renowned scholar with a focus on numerical patterns and mathematical symmetry in Islamic texts."
+  }
+]
+
 export default function AboutPage() {
   return (
     <main className="min-h-screen flex flex-col">
@@ -17,7 +49,7 @@ export default function AboutPage() {
           <div className="flex justify-center gap-4 mb-8">
             <div className="inline-flex items-center text-sm gap-1.5 bg-background px-3 py-1.5 rounded-full border">
               <CalendarIcon className="w-4 h-4 text-emerald-500" />
-              <span>April 11, 2025</span>
+              <span>April 15, 2025</span>
             </div>
             <div className="inline-flex items-center text-sm gap-1.5 bg-background px-3 py-1.5 rounded-full border">
               <MapPinIcon className="w-4 h-4 text-emerald-500" />
@@ -138,7 +170,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Speakers Section with Improved Cards */}
+      {/* Speakers Section with Real Images */}
       <section className="py-16 bg-muted">
         <div className="container">
           <h2 className="text-3xl font-bold text-center mb-4">Distinguished Speakers</h2>
@@ -146,74 +178,62 @@ export default function AboutPage() {
             Meet our esteemed moderator and panelists for this groundbreaking academic exploration of numerical patterns in the Holy Quran.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
+          {/* Main Speaker - Moderator */}
+          <div className="max-w-4xl mx-auto mb-12">
             <div className="bg-background rounded-xl p-6 shadow-sm transition-all hover:shadow-md">
               <div className="flex items-start gap-4">
-                <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl font-bold text-emerald-600">SH</span>
+                <div className="w-16 h-16 rounded-full bg-emerald-100 overflow-hidden flex-shrink-0">
+                  {speakers[0].imagePath ? (
+                    <img 
+                      src={speakers[0].imagePath} 
+                      alt={speakers[0].name} 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="text-2xl font-bold text-emerald-600">
+                        {speakers[0].name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <div>
-                  <div className="text-emerald-500 text-sm font-medium mb-1">Moderator</div>
-                  <h3 className="text-xl font-bold mb-1">Suhail Hidaya Hudawi</h3>
-                  <div className="text-sm text-muted-foreground mb-3">Dean, Kulliyyah of Qur'an & Sunnah</div>
-                  <p className="text-sm">
-                    Suhail Hidaya Hudawi is a distinguished scholar specializing in Quranic studies with extensive
-                    experience in Islamic education and research.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-background rounded-xl p-6 shadow-sm transition-all hover:shadow-md">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl font-bold text-emerald-600">JA</span>
-                </div>
-                <div>
-                  <div className="text-emerald-500 text-sm font-medium mb-1">Keynote Speaker</div>
-                  <h3 className="text-xl font-bold mb-1">Prof. Jamal Abdul Rahman</h3>
-                  <div className="text-sm text-muted-foreground mb-3">Director of Center for Quranic Studies</div>
-                  <p className="text-sm">
-                    Prof. Jamal Abdul Rahman is an internationally recognized authority on Quranic numerical patterns and
-                    mathematical analysis.
-                  </p>
+                  <div className="text-emerald-500 text-sm font-medium mb-1">{speakers[0].role}</div>
+                  <h3 className="text-xl font-bold mb-1">{speakers[0].name}</h3>
+                  <div className="text-sm text-muted-foreground mb-3">{speakers[0].designation}</div>
+                  <p className="text-sm">{speakers[0].description}</p>
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Panelists */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {[
-              {
-                name: "Shuhaibul Haitami",
-                role: "Panelist",
-                position: "Professor of Nanhi darussalam",
-                initials: "SH"
-              },
-              {
-                name: "Dr. Abdul Qayoom",
-                role: "Panelist",
-                position: "Ass. Professor PTM Govt College Perinthalmanna",
-                initials: "AQ"
-              },
-              {
-                name: "Salam Faisy Olavatttur",
-                role: "Panelist",
-                position: "Intaq academic senate member",
-                initials: "SF"
-              }
-            ].map((panelist, index) => (
+            {speakers.slice(1).map((panelist, index) => (
               <div key={index} className="bg-background rounded-xl p-5 shadow-sm transition-all hover:shadow-md">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
-                    <span className="text-sm font-bold text-emerald-600">{panelist.initials}</span>
+                <div className="flex flex-col items-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 overflow-hidden mb-3">
+                    {panelist.imagePath ? (
+                      <img 
+                        src={panelist.imagePath} 
+                        alt={panelist.name} 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-xl font-bold text-emerald-600">
+                          {panelist.name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <div className="text-emerald-500 text-xs font-medium">{panelist.role}</div>
-                    <h3 className="text-base font-bold">{panelist.name}</h3>
+                  <div className="text-center">
+                    <div className="text-emerald-500 text-sm font-medium mb-1">{panelist.role}</div>
+                    <h3 className="text-lg font-bold mb-1">{panelist.name}</h3>
+                    <div className="text-sm text-muted-foreground mb-2">{panelist.designation}</div>
+                    <p className="text-xs text-muted-foreground">{panelist.description}</p>
                   </div>
                 </div>
-                <div className="text-xs text-muted-foreground">{panelist.position}</div>
               </div>
             ))}
           </div>
@@ -232,9 +252,14 @@ export default function AboutPage() {
               <button className="bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-6 rounded-md font-medium transition-colors">
                 Register Now
               </button>
-              <button className="bg-muted hover:bg-muted/80 py-3 px-6 rounded-md font-medium transition-colors">
-                Download Brochure
-              </button>
+              <a 
+  href="/documents/seminar_brochure.pdf" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  className="bg-muted hover:bg-muted/80 py-3 px-6 rounded-md font-medium transition-colors inline-block text-center"
+>
+  Download Brochure
+</a>
             </div>
           </div>
         </div>
