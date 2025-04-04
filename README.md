@@ -20,6 +20,7 @@ A modern web application built with Next.js for managing and participating in Qu
 - **UI Components**: Radix UI
 - **Authentication**: NextAuth.js
 - **Database**: MongoDB
+- **Storage**: Supabase (for file storage and management)
 - **Form Handling**: React Hook Form with Zod validation
 - **State Management**: React Context
 - **PDF Generation**: jsPDF
