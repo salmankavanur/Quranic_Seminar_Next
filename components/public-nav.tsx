@@ -5,18 +5,70 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Moon, Sun, Menu, X } from "lucide-react"
 import { useTheme } from "next-themes"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 export function PublicNav() {
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10)
+    }
+
+    setMounted(true)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMenuOpen])
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/register", label: "Register" },
+    { href: "/submit", label: "Submit Abstract" },
+    { href: "/certificates", label: "Certificates" },
+    { href: "/contact", label: "Contact" }
+  ]
+
+  const isActive = (path) => {
+    if (path === '/') return pathname === '/'
+    return pathname === path || pathname.startsWith(path + '/')
+  }
 
   return (
-    <header className="border-b bg-background sticky top-0 z-50">
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="text-lg sm:text-xl font-medium text-emerald-500">
-          Quranic Seminar
+    <header className={`bg-background/95 backdrop-blur-md sticky top-0 z-50 transition-all duration-300 ${
+      scrolled ? 'shadow-md border-b border-border/50' : 'border-b border-border/30'
+    }`}>
+      <div className="container flex h-16 md:h-18 items-center justify-between">
+        {/* Logo */}
+        <Link 
+          href="/" 
+          className="flex items-center gap-2 text-lg sm:text-xl font-medium"
+        >
+          <span className="h-8 w-8 flex items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+            Q
+          </span>
+          <span>
+            <span className="text-emerald-600 dark:text-emerald-400">Quranic</span>
+            <span className="hidden sm:inline"> Seminar</span>
+          </span>
         </Link>
 
         {/* Mobile menu button */}
@@ -35,107 +87,138 @@ export function PublicNav() {
         </Button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-4 lg:gap-6">
-          <Link href="/" className={pathname === "/" ? "font-medium" : "text-muted-foreground hover:text-foreground transition-colors"}>
-            Home
-          </Link>
-          <Link href="/about" className={pathname === "/about" ? "font-medium" : "text-muted-foreground hover:text-foreground transition-colors"}>
-            About
-          </Link>
-          <Link href="/register" className={pathname === "/register" ? "font-medium" : "text-muted-foreground hover:text-foreground transition-colors"}>
-            Register
-          </Link>
-          <Link href="/submit" className={pathname.startsWith("/submit") ? "font-medium" : "text-muted-foreground hover:text-foreground transition-colors"}>
-            Submit Abstract
-          </Link>
-          <Link href="/certificates" className={pathname === "/certificates" ? "font-medium" : "text-muted-foreground hover:text-foreground transition-colors"}>
-            Certificates
-          </Link>
-          <Link href="/contact" className={pathname === "/contact" ? "font-medium" : "text-muted-foreground hover:text-foreground transition-colors"}>
-            Contact
-          </Link>
+        <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+          {navLinks.map(link => (
+            <Link 
+              key={link.href}
+              href={link.href} 
+              className={`
+                px-3 py-2 rounded-md text-sm relative
+                ${isActive(link.href) 
+                  ? 'text-foreground font-medium' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors'
+                }
+              `}
+            >
+              {link.label}
+              {isActive(link.href) && (
+                <motion.span 
+                  layoutId="navbar-indicator"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500 mx-3"
+                  transition={{ type: 'spring', duration: 0.6, bounce: 0.3 }}
+                />
+              )}
+            </Link>
+          ))}
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="ml-2"
-          >
-            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
+          <div className="ml-2 border-l border-border/50 pl-3 flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="rounded-full h-8 w-8"
+            >
+              {mounted ? (
+                <>
+                  <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                  <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                </>
+              ) : (
+                <span className="h-4 w-4" />
+              )}
+              <span className="sr-only">Toggle theme</span>
+            </Button>
 
-          <Button asChild variant="warning" size="sm" className="ml-4">
-            <Link href="/admin">Admin</Link>
-          </Button>
+            <Button 
+              asChild 
+              size="sm" 
+              className="ml-1 rounded-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 border-none text-white"
+            >
+              <Link href="/admin">
+                <span className="flex items-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                  Admin
+                </span>
+              </Link>
+            </Button>
+          </div>
         </nav>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <nav className="absolute top-16 left-0 right-0 bg-background border-b md:hidden">
-            <div className="container py-4 space-y-4">
-              <Link 
-                href="/" 
-                className={`block py-2 ${pathname === "/" ? "font-medium" : "text-muted-foreground"}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/about" 
-                className={`block py-2 ${pathname === "/about" ? "font-medium" : "text-muted-foreground"}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link 
-                href="/register" 
-                className={`block py-2 ${pathname === "/register" ? "font-medium" : "text-muted-foreground"}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Register
-              </Link>
-              <Link 
-                href="/submit" 
-                className={`block py-2 ${pathname.startsWith("/submit") ? "font-medium" : "text-muted-foreground"}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Submit Abstract
-              </Link>
-              <Link 
-                href="/certificates" 
-                className={`block py-2 ${pathname === "/certificates" ? "font-medium" : "text-muted-foreground"}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Certificates
-              </Link>
-              <Link 
-                href="/contact" 
-                className={`block py-2 ${pathname === "/contact" ? "font-medium" : "text-muted-foreground"}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact
-              </Link>
-              <div className="flex items-center gap-4 pt-4 border-t">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                >
-                  <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                  <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                  <span className="sr-only">Toggle theme</span>
-                </Button>
-                <Button asChild variant="warning" size="sm" className="flex-1">
-                  <Link href="/admin">Admin</Link>
-                </Button>
-              </div>
-            </div>
-          </nav>
-        )}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 top-16 bg-background/98 backdrop-blur-sm md:hidden z-40"
+            >
+              <nav className="container py-8">
+                <div className="flex flex-col space-y-1">
+                  {navLinks.map(link => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`
+                        p-3 rounded-md flex items-center
+                        ${isActive(link.href)
+                          ? 'bg-muted font-medium text-emerald-600 dark:text-emerald-400'
+                          : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+                        }
+                      `}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+                
+                <div className="mt-8 pt-6 border-t border-border/50 flex items-center justify-between">
+                  <p className="text-sm text-muted-foreground">Switch theme</p>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                    className="rounded-full h-9 w-9 border-border"
+                  >
+                    {mounted ? (
+                      <>
+                        <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                        <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                      </>
+                    ) : (
+                      <span className="h-4 w-4" />
+                    )}
+                    <span className="sr-only">Toggle theme</span>
+                  </Button>
+                </div>
+                
+                <div className="mt-6">
+                  <Button asChild className="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 rounded-md">
+                    <Link href="/admin" onClick={() => setIsMenuOpen(false)}>
+                      <span className="flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                          <circle cx="9" cy="7" r="4"></circle>
+                          <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Admin Portal
+                      </span>
+                    </Link>
+                  </Button>
+                </div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   )
 }
-
