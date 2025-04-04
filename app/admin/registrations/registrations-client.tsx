@@ -72,7 +72,7 @@ export function RegistrationsClient({ registrations, counts }: RegistrationsClie
       </div>
 
       <div className="border rounded-lg overflow-hidden">
-        <div className="grid grid-cols-6 bg-muted p-4 font-medium">
+        <div className="flex justify-between bg-muted p-4 font-medium">
           <div>Name</div>
           <div>Email</div>
           <div>Institution</div>
@@ -83,7 +83,7 @@ export function RegistrationsClient({ registrations, counts }: RegistrationsClie
 
         {filteredRegistrations.length > 0 ? (
           filteredRegistrations.map((reg: any) => (
-            <div key={reg._id} className="grid grid-cols-6 p-4 border-t items-center">
+            <div key={reg._id} className="flex justify-between p-4 border-t items-center">
               <div>
                 {reg.first_name} {reg.last_name}
               </div>
