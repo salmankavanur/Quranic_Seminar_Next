@@ -90,7 +90,10 @@ The application will be available at `http://localhost:3000`.
 Create a `.env` file in the root directory with the following variables:
 
 ```env
-# Add your environment variables here
+NEXT_PUBLIC_SUPABASE_URL=supabase url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=supabase anon key
+MONGODB_URI=mongodb://localhost:27017/quranic_seminar
+JWT_SECRET=secret key
 ```
 
 ## 🤝 Contributing
