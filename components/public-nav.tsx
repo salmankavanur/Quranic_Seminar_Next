@@ -16,7 +16,7 @@ export function PublicNav() {
     <header className="border-b bg-background sticky top-0 z-50">
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="text-lg sm:text-xl font-medium text-emerald-500">
-          Numerical Quran
+          Quranic Seminar
         </Link>
 
         {/* Mobile menu button */}
