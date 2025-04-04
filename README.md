@@ -31,7 +31,7 @@ A modern web application built with Next.js for managing and participating in Qu
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone https://github.com/salmankavanur/Quranic_Seminar_Next
 ```
 
 2. Install dependencies:
