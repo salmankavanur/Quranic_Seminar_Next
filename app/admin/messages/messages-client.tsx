@@ -59,40 +59,50 @@ export function MessagesClient({ messages, unreadCount }: MessagesClientProps) {
         </Button>
       </div>
 
-      <div className="border rounded-lg overflow-hidden">
-        <div className="grid grid-cols-5 bg-muted p-4 font-medium">
-          <div className="w-6"></div>
-          <div>Sender</div>
-          <div>Subject</div>
-          <div>Date</div>
-          <div className="text-right">Actions</div>
-        </div>
-
-        {filteredMessages.length > 0 ? (
-          filteredMessages.map((message: any) => (
-            <div key={message._id} className="grid grid-cols-5 p-4 border-t items-center">
-              <div>
-                <div className={`w-2 h-2 rounded-full ${message.is_read ? "bg-transparent" : "bg-blue-500"}`}></div>
-              </div>
-              <div>
-                <div className={message.is_read ? "" : "font-medium"}>{message.sender_name}</div>
-                <div className="text-sm text-muted-foreground">{message.sender_email}</div>
-              </div>
-              <div>
-                <div className={message.is_read ? "" : "font-medium"}>{message.subject}</div>
-                <div className="text-sm text-muted-foreground truncate max-w-xs">
-                  {message.message.substring(0, 60)}...
-                </div>
-              </div>
-              <div>{new Date(message.created_at).toLocaleDateString()}</div>
-              <MessageActions message={message} />
-            </div>
-          ))
-        ) : (
-          <div className="p-8 text-center text-muted-foreground">No messages found</div>
-        )}
+      <div className="border rounded-lg overflow-x-auto">
+        <table className="w-full table-auto">
+          <thead>
+            <tr className="bg-muted text-left">
+              <th className="px-4 py-3 font-medium w-6"></th>
+              <th className="px-4 py-3 font-medium">Sender</th>
+              <th className="px-4 py-3 font-medium">Subject</th>
+              <th className="px-4 py-3 font-medium">Date</th>
+              <th className="px-4 py-3 font-medium text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredMessages.length > 0 ? (
+              filteredMessages.map((message: any) => (
+                <tr key={message._id} className="border-t hover:bg-muted/50">
+                  <td className="px-4 py-3">
+                    <div className={`w-2 h-2 rounded-full ${message.is_read ? "bg-transparent" : "bg-blue-500"}`}></div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className={message.is_read ? "" : "font-medium"}>{message.sender_name}</div>
+                    <div className="text-sm text-muted-foreground">{message.sender_email}</div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className={message.is_read ? "" : "font-medium"}>{message.subject}</div>
+                    <div className="text-sm text-muted-foreground truncate max-w-xs">
+                      {message.message.substring(0, 60)}...
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">{new Date(message.created_at).toLocaleDateString()}</td>
+                  <td className="px-4 py-3 text-right">
+                    <MessageActions message={message} />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5} className="p-8 text-center text-muted-foreground">
+                  No messages found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </>
   )
 }
-
