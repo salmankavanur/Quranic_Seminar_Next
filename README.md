@@ -7,6 +7,7 @@ A modern web application built with Next.js for managing and participating in Qu
 - **User Authentication**: Secure login and registration system
 - **Admin Dashboard**: Comprehensive admin interface for managing seminars and users
 - **Certificate Management**: System for generating and managing certificates
+- **Abstract/Paper Submission**: Platform for submitting and managing research papers and abstracts
 - **Contact System**: Built-in contact form for user inquiries
 - **Responsive Design**: Mobile-friendly interface using Tailwind CSS
 - **Modern UI Components**: Built with Radix UI and other modern component libraries
