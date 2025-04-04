@@ -64,7 +64,7 @@ export async function initializeDatabase() {
           seminar_date: new Date("2025-04-10"),
           abstract_deadline: new Date("2025-03-21"),
           paper_deadline: new Date("2025-04-08"),
-          venue: "Abode Islamic Centre, Oorkadave, Kerala, India",
+          venue: "Akode Islamic Centre, Oorkadave, Kerala, India",
           contact_info: {
             email: "quraniclearningfestival@gmail.com",
             phone: "+91 7034546331",

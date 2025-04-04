@@ -18,7 +18,7 @@ export default function AboutPage() {
 
             <p>
               The National Seminar on Numerical Inimitability in the Holy Quran - Evidence of Divine Precision is a
-              one-day seminar organized by Abode Islamic Centre under the QLF Project. This seminar aims to explore the
+              one-day seminar organized by Akode Islamic Centre under the QLF Project. This seminar aims to explore the
               profound numerical patterns in the Quran, highlighting their role as evidence of divine precision and
               authenticity.
             </p>
@@ -40,7 +40,7 @@ export default function AboutPage() {
               <div>
                 <h3>About the QLF</h3>
                 <p>
-                  QLF (Qur'anic Learning Festival) is a unique initiative by Abode Islamic Centre dedicated to fostering
+                  QLF (Qur'anic Learning Festival) is a unique initiative by Akode Islamic Centre dedicated to fostering
                   a deeper understanding and appreciation of the Qur'an through various academic, artistic, and
                   interactive programs.
                 </p>
@@ -57,9 +57,9 @@ export default function AboutPage() {
               </div>
 
               <div>
-                <h3>About the Abode Islamic Centre</h3>
+                <h3>About the Akode Islamic Centre</h3>
                 <p>
-                  The Abode Islamic Centre is a leading institution dedicated to education, Qur'anic studies, and social
+                  The Akode Islamic Centre is a leading institution dedicated to education, Qur'anic studies, and social
                   welfare. While it provides a nurturing environment for over 400 orphaned children, it also serves a
                   broader community through quality education from kindergarten to post-secondary levels.
                 </p>

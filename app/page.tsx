@@ -18,7 +18,7 @@ async function getSeminarInfo() {
         seminar_date: new Date("2025-04-10"),
         abstract_deadline: new Date("2025-03-21"),
         paper_deadline: new Date("2025-04-08"),
-        venue: "Abode Islamic Centre, Oorkadave, Kerala, India",
+        venue: "Akode Islamic Centre, Oorkadave, Kerala, India",
         contact_info: { email: "quraniclearningfestival@gmail.com", phone: "+91 XXXXX XXXXX" },
       }
     )
@@ -28,7 +28,7 @@ async function getSeminarInfo() {
       seminar_date: new Date("2025-04-10"),
       abstract_deadline: new Date("2025-03-21"),
       paper_deadline: new Date("2025-04-08"),
-      venue: "Abode Islamic Centre, Oorkadave, Kerala, India",
+      venue: "Akode Islamic Centre, Oorkadave, Kerala, India",
       contact_info: { email: "quraniclearningfestival@gmail.com", phone: "+91 XXXXX XXXXX" },
     }
   }
@@ -42,7 +42,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="py-12 md:py-20 bg-background text-center px-4">
         <div className="container mx-auto">
-          <p className="text-sm text-muted-foreground mb-4">April 11, 2025 • Abode Islamic Centre</p>
+          <p className="text-sm text-muted-foreground mb-4">April 11, 2025 • Akode Islamic Centre</p>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             National Seminar on
             <br />

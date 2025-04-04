@@ -91,7 +91,7 @@ export async function seedDatabase() {
           last_name: "Ali",
           email: "mohammed.ali@example.com",
           phone: "+91 9876543214",
-          institution: "Abode Islamic Centre",
+          institution: "Akode Islamic Centre",
           participant_type: "Presenter",
           special_requirements: "Wheelchair access",
           status: "confirmed",

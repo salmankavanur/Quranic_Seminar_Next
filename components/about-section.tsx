@@ -7,7 +7,7 @@ export function AboutSection() {
         <h2 className="text-3xl font-bold text-center mb-8">About the Seminar</h2>
         <p className="text-center max-w-3xl mx-auto mb-12 text-lg text-muted-foreground leading-relaxed">
           The National Seminar on Numerical Inimitability in the Holy Quran - Evidence of Divine Precision is a
-          one-day seminar organized by Abode Islamic Centre under the QLF Project. This seminar aims to explore the
+          one-day seminar organized by Akode Islamic Centre under the QLF Project. This seminar aims to explore the
           profound numerical patterns in the Quran, highlighting their role as evidence of divine precision and
           authenticity.
         </p>
@@ -41,7 +41,7 @@ export function AboutSection() {
             </div>
             <div className="space-y-3">
               <div className="space-y-2">
-                <h4 className="font-medium">Abode Islamic Centre</h4>
+                <h4 className="font-medium">Akode Islamic Centre</h4>
                 <address className="text-muted-foreground not-italic leading-relaxed">
                   Virippadam, Akode<br />
                   Vazhakkad, Malappuram<br />

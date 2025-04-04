@@ -48,7 +48,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div className="font-medium">Address</div>
-                      <div className="text-sm text-muted-foreground">Abode Islamic Centre</div>
+                      <div className="text-sm text-muted-foreground">Akode Islamic Centre</div>
                       <div className="text-sm text-muted-foreground">Virippadam, Akode</div>
                       <div className="text-sm text-muted-foreground">Vazhakkad via, Malappuram</div>
                       <div className="text-sm text-muted-foreground">Kerala, India - 673640</div>
