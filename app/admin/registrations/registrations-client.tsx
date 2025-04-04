@@ -19,7 +19,9 @@ interface RegistrationsClientProps {
 export function RegistrationsClient({ registrations, counts }: RegistrationsClientProps) {
   const [filter, setFilter] = useState("all")
 
-  const filteredRegistrations = filter === "all" ? registrations : registrations.filter((reg) => reg.status === filter)
+  const filteredRegistrations = filter === "all" 
+    ? registrations 
+    : registrations.filter((reg) => reg.status === filter)
 
   return (
     <>
@@ -71,54 +73,68 @@ export function RegistrationsClient({ registrations, counts }: RegistrationsClie
         </Button>
       </div>
 
-      <div className="border rounded-lg overflow-hidden">
-        <div className="flex justify-between bg-muted p-4 font-medium">
-          <div>Name</div>
-          <div>Email</div>
-          <div>Institution</div>
-          <div>Type</div>
-          <div>Status</div>
-          <div className="text-right">Actions</div>
-        </div>
-
-        {filteredRegistrations.length > 0 ? (
-          filteredRegistrations.map((reg: any) => (
-            <div key={reg._id} className="flex justify-between p-4 border-t items-center">
-              <div>
-                {reg.first_name} {reg.last_name}
-              </div>
-              <div className="text-muted-foreground">{reg.email}</div>
-              <div>{reg.institution}</div>
-              <div>
-                <Badge
-                  className={
-                    reg.participant_type === "Presenter"
-                      ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-                      : reg.participant_type === "Student"
-                        ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300"
-                        : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-                  }
-                >
-                  {reg.participant_type}
-                </Badge>
-              </div>
-              <div>
-                <Badge
-                  variant={
-                    reg.status === "confirmed" ? "success" : reg.status === "rejected" ? "destructive" : "outline"
-                  }
-                >
-                  {reg.status}
-                </Badge>
-              </div>
-              <RegistrationActions registration={reg} />
-            </div>
-          ))
-        ) : (
-          <div className="p-8 text-center text-muted-foreground">No registrations found</div>
-        )}
+      <div className="border rounded-lg overflow-x-auto">
+        <table className="w-full table-auto">
+          <thead>
+            <tr className="bg-muted text-left">
+              <th className="px-4 py-3 font-medium">Name</th>
+              <th className="px-4 py-3 font-medium">Email</th>
+              <th className="px-4 py-3 font-medium">Institution</th>
+              <th className="px-4 py-3 font-medium">Type</th>
+              <th className="px-4 py-3 font-medium">Status</th>
+              <th className="px-4 py-3 font-medium text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredRegistrations.length > 0 ? (
+              filteredRegistrations.map((reg: any) => (
+                <tr key={reg._id} className="border-t hover:bg-muted/50">
+                  <td className="px-4 py-3">
+                    {reg.first_name} {reg.last_name}
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">{reg.email}</td>
+                  <td className="px-4 py-3">{reg.institution}</td>
+                  <td className="px-4 py-3">
+                    <Badge
+                      className={
+                        reg.participant_type === "Presenter"
+                          ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+                          : reg.participant_type === "Student"
+                            ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300"
+                            : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+                      }
+                    >
+                      {reg.participant_type}
+                    </Badge>
+                  </td>
+                  <td className="px-4 py-3">
+                    <Badge
+                      variant={
+                        reg.status === "confirmed" 
+                          ? "success" 
+                          : reg.status === "rejected" 
+                            ? "destructive" 
+                            : "outline"
+                      }
+                    >
+                      {reg.status}
+                    </Badge>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <RegistrationActions registration={reg} />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                  No registrations found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </>
   )
 }
-
