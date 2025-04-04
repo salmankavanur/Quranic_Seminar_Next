@@ -18,7 +18,7 @@ export function CountdownSection() {
     setMounted(true)
     
     const calculateTimeLeft = () => {
-      const seminarDate = new Date("2025-04-15T09:00:00").getTime()
+      const seminarDate = new Date("2025-04-11T09:00:00").getTime()
       const now = new Date().getTime()
       const difference = seminarDate - now
 

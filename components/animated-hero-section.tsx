@@ -74,7 +74,7 @@ export function AnimatedHeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          April 15, 2025 • Akode Islamic Centre
+          April 11, 2025 • Akode Islamic Centre
         </motion.p>
 
         <motion.h1
