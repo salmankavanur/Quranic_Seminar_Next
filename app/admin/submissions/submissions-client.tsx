@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FileDown } from "lucide-react"
@@ -73,10 +72,7 @@ export function SubmissionsClient({ abstracts, papers, abstractCounts, paperCoun
     )
 
   const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    // Prevent default to avoid opening in new tab
     e.preventDefault()
-
-    // Create a temporary link element and trigger the download
     const link = document.createElement("a")
     link.href = href
     link.setAttribute("download", "")
@@ -151,44 +147,55 @@ export function SubmissionsClient({ abstracts, papers, abstractCounts, paperCoun
           </Button>
         </div>
 
-        <div className="border rounded-lg overflow-hidden">
-          <div className="grid grid-cols-6 bg-muted p-4 font-medium">
-            <div>Title</div>
-            <div>Author</div>
-            <div>Topic</div>
-            <div>Status</div>
-            <div>Date</div>
-            <div className="text-right">Actions</div>
-          </div>
-
-          {filteredAbstracts.length > 0 ? (
-            filteredAbstracts.map((abstract: any) => (
-              <div key={abstract._id} className="grid grid-cols-6 p-4 border-t items-center">
-                <div className="truncate pr-4">{abstract.title}</div>
-                <div className="text-muted-foreground">
-                  {abstract.first_name} {abstract.last_name}
-                </div>
-                <div className="truncate pr-4">{abstract.sub_theme}</div>
-                <div>
-                  <Badge
-                    variant={
-                      abstract.status === "accepted"
-                        ? "success"
-                        : abstract.status === "rejected"
-                          ? "destructive"
-                          : "outline"
-                    }
-                  >
-                    {abstract.status}
-                  </Badge>
-                </div>
-                <div>{new Date(abstract.created_at).toLocaleDateString()}</div>
-                <SubmissionActions submission={abstract} type="abstract" />
-              </div>
-            ))
-          ) : (
-            <div className="p-8 text-center text-muted-foreground">No abstract submissions found</div>
-          )}
+        <div className="border rounded-lg overflow-x-auto">
+          <table className="w-full table-auto">
+            <thead>
+              <tr className="bg-muted text-left">
+                <th className="px-4 py-3 font-medium">Title</th>
+                <th className="px-4 py-3 font-medium">Author</th>
+                <th className="px-4 py-3 font-medium">Topic</th>
+                <th className="px-4 py-3 font-medium">Status</th>
+                <th className="px-4 py-3 font-medium">Date</th>
+                <th className="px-4 py-3 font-medium text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAbstracts.length > 0 ? (
+                filteredAbstracts.map((abstract: any) => (
+                  <tr key={abstract._id} className="border-t hover:bg-muted/50">
+                    <td className="px-4 py-3 truncate">{abstract.title}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {abstract.first_name} {abstract.last_name}
+                    </td>
+                    <td className="px-4 py-3 truncate">{abstract.sub_theme}</td>
+                    <td className="px-4 py-3">
+                      <Badge
+                        variant={
+                          abstract.status === "accepted"
+                            ? "success"
+                            : abstract.status === "rejected"
+                              ? "destructive"
+                              : "outline"
+                        }
+                      >
+                        {abstract.status}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-3">{new Date(abstract.created_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-right">
+                      <SubmissionActions submission={abstract} type="abstract" />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                    No abstract submissions found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </TabsContent>
 
@@ -254,68 +261,78 @@ export function SubmissionsClient({ abstracts, papers, abstractCounts, paperCoun
             size="sm"
             onClick={() => setPaperFilter("rejected")}
           >
-            RejClick={() => setPaperFilter("rejected")}> Rejected ({paperCounts.rejected})
+            Rejected ({paperCounts.rejected})
           </Button>
         </div>
 
-        <div className="border rounded-lg overflow-hidden">
-          <div className="grid grid-cols-6 bg-muted p-4 font-medium">
-            <div>Title</div>
-            <div>Author</div>
-            <div>File</div>
-            <div>Status</div>
-            <div>Date</div>
-            <div className="text-right">Actions</div>
-          </div>
-
-          {filteredPapers.length > 0 ? (
-            filteredPapers.map((paper: any) => (
-              <div key={paper._id} className="grid grid-cols-6 p-4 border-t items-center">
-                <div className="truncate pr-4">{paper.title}</div>
-                <div className="text-muted-foreground">
-                  {paper.first_name} {paper.last_name}
-                </div>
-                <div>
-                  {paper.file_path ? (
-                    <Button variant="ghost" size="sm" className="p-0 h-auto" asChild>
-                      <a
-                        href={getDownloadUrl(paper.file_path)}
-                        download
-                        onClick={(e) => handleDownload(e, getDownloadUrl(paper.file_path) || "")}
+        <div className="border rounded-lg overflow-x-auto">
+          <table className="w-full table-auto">
+            <thead>
+              <tr className="bg-muted text-left">
+                <th className="px-4 py-3 font-medium">Title</th>
+                <th className="px-4 py-3 font-medium">Author</th>
+                <th className="px-4 py-3 font-medium">File</th>
+                <th className="px-4 py-3 font-medium">Status</th>
+                <th className="px-4 py-3 font-medium">Date</th>
+                <th className="px-4 py-3 font-medium text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredPapers.length > 0 ? (
+                filteredPapers.map((paper: any) => (
+                  <tr key={paper._id} className="border-t hover:bg-muted/50">
+                    <td className="px-4 py-3 truncate">{paper.title}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {paper.first_name} {paper.last_name}
+                    </td>
+                    <td className="px-4 py-3">
+                      {paper.file_path ? (
+                        <Button variant="ghost" size="sm" className="p-0 h-auto" asChild>
+                          <a
+                            href={getDownloadUrl(paper.file_path)}
+                            download
+                            onClick={(e) => handleDownload(e, getDownloadUrl(paper.file_path) || "")}
+                          >
+                            <FileDown className="h-4 w-4 mr-1" />
+                            <span className="text-xs">Download</span>
+                          </a>
+                        </Button>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">No file</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      <Badge
+                        variant={
+                          paper.status === "qualified"
+                            ? "warning"
+                            : paper.status === "accepted"
+                              ? "success"
+                              : paper.status === "rejected"
+                                ? "destructive"
+                                : "outline"
+                        }
                       >
-                        <FileDown className="h-4 w-4 mr-1" />
-                        <span className="text-xs">Download</span>
-                      </a>
-                    </Button>
-                  ) : (
-                    <span className="text-xs text-muted-foreground">No file</span>
-                  )}
-                </div>
-                <div>
-                  <Badge
-                    variant={
-                      paper.status === "qualified"
-                        ? "warning"
-                        : paper.status === "accepted"
-                          ? "success"
-                          : paper.status === "rejected"
-                            ? "destructive"
-                            : "outline"
-                    }
-                  >
-                    {paper.status === "qualified" ? "Qualified for Presentation" : paper.status}
-                  </Badge>
-                </div>
-                <div>{new Date(paper.created_at).toLocaleDateString()}</div>
-                <SubmissionActions submission={paper} type="paper" />
-              </div>
-            ))
-          ) : (
-            <div className="p-8 text-center text-muted-foreground">No paper submissions found</div>
-          )}
+                        {paper.status === "qualified" ? "Qualified for Presentation" : paper.status}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-3">{new Date(paper.created_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-right">
+                      <SubmissionActions submission={paper} type="paper" />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                    No paper submissions found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </TabsContent>
     </Tabs>
   )
 }
-
