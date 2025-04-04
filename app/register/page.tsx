@@ -31,16 +31,12 @@ export default function RegisterPage() {
       {/* Registration Form Section */}
       <section className="py-12 px-4">
         <div className="container mx-auto max-w-4xl">
-          <div className="bg-background rounded-xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
-            <div className="p-6 md:p-8">
-              <h2 className="text-2xl font-bold mb-6 text-center">Secure Your Place</h2>
-              <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Please complete the form below to register for the National Seminar on Numerical Inimitability in the Holy Quran.
-              </p>
-              
-              <RegistrationForm />
-            </div>
-          </div>
+          <h2 className="text-2xl font-bold mb-6 text-center">Secure Your Place</h2>
+          <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Please complete the form below to register for the National Seminar on Numerical Inimitability in the Holy Quran.
+          </p>
+          
+          <RegistrationForm />
         </div>
       </section>
 
