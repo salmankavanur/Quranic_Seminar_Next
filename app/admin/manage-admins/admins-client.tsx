@@ -51,40 +51,52 @@ export function AdminsClient({ admins, currentUserEmail }: AdminsClientProps) {
         <CreateAdminDialog />
       </div>
 
-      <div className="border rounded-lg overflow-hidden">
-        <div className="grid grid-cols-4 bg-muted p-4 font-medium">
-          <div>Name</div>
-          <div>Email</div>
-          <div>Permissions</div>
-          <div className="text-right">Actions</div>
-        </div>
-
-        {filteredAdmins.length > 0 ? (
-          filteredAdmins.map((admin: any) => (
-            <div key={admin._id} className="grid grid-cols-4 p-4 border-t items-center">
-              <div>{admin.name}</div>
-              <div className="text-muted-foreground">{admin.email}</div>
-              <div className="flex flex-wrap gap-1">
-                {admin.permissions &&
-                  Object.entries(admin.permissions)
-                    .filter(([_, value]) => value === true)
-                    .map(([permission]) => (
-                      <span
-                        key={permission}
-                        className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                      >
-                        {permission.replace("_", " ")}
-                      </span>
-                    ))}
-              </div>
-              <AdminActions admin={admin} currentUserEmail={currentUserEmail} />
-            </div>
-          ))
-        ) : (
-          <div className="p-8 text-center text-muted-foreground">No admins found</div>
-        )}
+      <div className="border rounded-lg overflow-x-auto">
+        <table className="w-full table-auto">
+          <thead>
+            <tr className="bg-muted text-left">
+              <th className="px-4 py-3 font-medium">Name</th>
+              <th className="px-4 py-3 font-medium">Email</th>
+              <th className="px-4 py-3 font-medium">Permissions</th>
+              <th className="px-4 py-3 font-medium text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredAdmins.length > 0 ? (
+              filteredAdmins.map((admin: any) => (
+                <tr key={admin._id} className="border-t hover:bg-muted/50">
+                  <td className="px-4 py-3">{admin.name}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{admin.email}</td>
+                  <td className="px-4 py-3">
+                    <div className="flex flex-wrap gap-1">
+                      {admin.permissions &&
+                        Object.entries(admin.permissions)
+                          .filter(([_, value]) => value === true)
+                          .map(([permission]) => (
+                            <span
+                              key={permission}
+                              className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                            >
+                              {permission.replace("_", " ")}
+                            </span>
+                          ))}
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <AdminActions admin={admin} currentUserEmail={currentUserEmail} />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={4} className="p-8 text-center text-muted-foreground">
+                  No admins found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </>
   )
 }
-
