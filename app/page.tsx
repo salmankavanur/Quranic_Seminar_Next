@@ -213,7 +213,7 @@ export default async function Home() {
               <div>April 08, 2025</div>
 
               <div className="text-right font-medium">Date of the Seminar:</div>
-              <div>April 10, 2025</div>
+              <div>April 11, 2025</div>
             </div>
 
             <div className="mt-8 text-center">
