@@ -157,9 +157,10 @@ export function PublicNav() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 top-16 bg-background/98 backdrop-blur-sm md:hidden z-40"
+              className="fixed inset-0 top-16 bg-background/95 dark:bg-gray-900/95 backdrop-blur-md md:hidden z-40 shadow-lg"
             >
-              <nav className="container py-8">
+             <nav className="container py-8 bg-white dark:bg-background/95 backdrop-blur-md">
+
                 <div className="flex flex-col space-y-1">
                   {navLinks.map(link => (
                     <Link
