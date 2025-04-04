@@ -103,14 +103,14 @@ export function CreateRegistrationDialog() {
           Add Registration
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>
-          <DialogTitle>Create New Registration</DialogTitle>
+          <DialogTitle className="text-xl font-semibold">Create New Registration</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="first_name"
@@ -118,7 +118,7 @@ export function CreateRegistrationDialog() {
                   <FormItem>
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input placeholder="Enter first name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -132,7 +132,7 @@ export function CreateRegistrationDialog() {
                   <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input placeholder="Enter last name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -140,7 +140,7 @@ export function CreateRegistrationDialog() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -148,7 +148,7 @@ export function CreateRegistrationDialog() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input placeholder="Enter email address" type="email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -162,7 +162,7 @@ export function CreateRegistrationDialog() {
                   <FormItem>
                     <FormLabel>Phone</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input placeholder="Enter phone number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -177,25 +177,25 @@ export function CreateRegistrationDialog() {
                 <FormItem>
                   <FormLabel>Institution</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input placeholder="Enter institution name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="participant_type"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="space-y-2">
                     <FormLabel>Participant Type</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className="flex flex-col space-y-1"
+                        className="flex flex-col space-y-2"
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
@@ -253,7 +253,11 @@ export function CreateRegistrationDialog() {
                 <FormItem>
                   <FormLabel>Special Requirements</FormLabel>
                   <FormControl>
-                    <Textarea {...field} />
+                    <Textarea 
+                      placeholder="Enter any special requirements or notes"
+                      className="min-h-[100px] resize-none"
+                      {...field} 
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -261,10 +265,19 @@ export function CreateRegistrationDialog() {
             />
 
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setIsOpen(false)}
+                className="w-full sm:w-auto"
+              >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full sm:w-auto"
+              >
                 {isSubmitting ? "Creating..." : "Create Registration"}
               </Button>
             </DialogFooter>
