@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Eye, Pencil, Trash2, CheckCircle, XCircle } from "lucide-react"
+import { Eye, Pencil, Trash2, CheckCircle, XCircle, QrCode } from "lucide-react"
 import { ConfirmDialog } from "@/components/confirm-dialog"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
@@ -19,7 +19,8 @@ export function RegistrationActions({ registration }: RegistrationActionsProps) 
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [isStatusOpen, setIsStatusOpen] = useState(false)
-  const [newStatus, setNewStatus] = useState("")
+  const [newStatus, setNewStatus] = useState<"confirmed" | "rejected">()
+  const [isGeneratingBadge, setIsGeneratingBadge] = useState(false)
 
   const handleDelete = async () => {
     try {
@@ -48,39 +49,90 @@ export function RegistrationActions({ registration }: RegistrationActionsProps) 
   }
 
   const handleStatusChange = async () => {
+    if (!newStatus) return
+
     try {
-      const response = await fetch(`/api/registrations/${registration._id}/status`, {
-        method: "PATCH",
+      const response = await fetch(`/api/registrations/${registration._id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({
+          ...registration,
+          status: newStatus,
+        }),
       })
 
       if (!response.ok) {
-        throw new Error("Failed to update status")
+        throw new Error(`Failed to ${newStatus} registration`)
       }
 
       toast({
-        title: "Status updated",
-        description: `Registration status has been updated to ${newStatus}.`,
+        title: `Registration ${newStatus}`,
+        description: `The registration has been ${newStatus} successfully.`,
       })
 
       router.refresh()
     } catch (error) {
-      console.error("Error updating status:", error)
+      console.error("Error updating registration status:", error)
       toast({
         title: "Error",
-        description: "Failed to update status. Please try again.",
+        description: `Failed to ${newStatus} registration. Please try again.`,
         variant: "destructive",
       })
     }
   }
 
-  const openStatusDialog = (status: string) => {
+  const openStatusDialog = (status: "confirmed" | "rejected") => {
     setNewStatus(status)
     setIsStatusOpen(true)
   }
+
+  const handleGenerateBadge = async () => {
+    if (registration.badge_id) {
+      toast({
+        title: "Badge exists",
+        description: "A badge has already been generated for this registration.",
+        variant: "default",
+      });
+      return;
+    }
+
+    setIsGeneratingBadge(true);
+    try {
+      const response = await fetch("/api/badges", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          registrationId: registration._id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error + (data.details ? `: ${data.details}` : ''));
+      }
+
+      toast({
+        title: "Badge generated",
+        description: "The digital badge has been generated successfully.",
+      });
+
+      router.refresh();
+    } catch (error) {
+      console.error("Error generating badge:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to generate badge. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingBadge(false);
+    }
+  };
 
   return (
     <div className="flex justify-end space-x-2">
@@ -93,6 +145,18 @@ export function RegistrationActions({ registration }: RegistrationActionsProps) 
       <Button variant="ghost" size="icon" onClick={() => setIsDeleteOpen(true)}>
         <Trash2 className="h-4 w-4" />
       </Button>
+
+      {registration.status === "confirmed" && !registration.badge_id && (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-blue-500"
+          onClick={handleGenerateBadge}
+          disabled={isGeneratingBadge}
+        >
+          <QrCode className="h-4 w-4" />
+        </Button>
+      )}
 
       {registration.status !== "confirmed" && (
         <Button variant="ghost" size="icon" className="text-green-500" onClick={() => openStatusDialog("confirmed")}>

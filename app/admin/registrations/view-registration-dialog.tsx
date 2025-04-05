@@ -2,6 +2,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
 
 interface ViewRegistrationDialogProps {
   registration: any
@@ -11,6 +12,17 @@ interface ViewRegistrationDialogProps {
 
 export function ViewRegistrationDialog({ registration, isOpen, onClose }: ViewRegistrationDialogProps) {
   if (!registration) return null
+
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case "confirmed":
+        return "default"
+      case "rejected":
+        return "destructive"
+      default:
+        return "secondary"
+    }
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -62,29 +74,43 @@ export function ViewRegistrationDialog({ registration, isOpen, onClose }: ViewRe
           <div className="space-y-1">
             <h3 className="text-sm font-medium">Status</h3>
             <p>
-              <Badge
-                variant={
-                  registration.status === "confirmed"
-                    ? "success"
-                    : registration.status === "rejected"
-                      ? "destructive"
-                      : "outline"
-                }
-              >
+              <Badge variant={getStatusVariant(registration.status)}>
                 {registration.status}
               </Badge>
             </p>
           </div>
 
-          <div className="space-y-1 col-span-2">
-            <h3 className="text-sm font-medium">Special Requirements</h3>
-            <p className="text-sm text-muted-foreground">{registration.special_requirements || "None"}</p>
-          </div>
+          {registration.special_requirements && (
+            <div className="col-span-2 space-y-1">
+              <h3 className="text-sm font-medium">Special Requirements</h3>
+              <p className="text-muted-foreground">{registration.special_requirements}</p>
+            </div>
+          )}
 
-          <div className="space-y-1">
-            <h3 className="text-sm font-medium">Registration Date</h3>
-            <p>{new Date(registration.created_at).toLocaleString()}</p>
-          </div>
+          {registration.badge_id && registration.qr_code && (
+            <div className="col-span-2 space-y-4">
+              <div className="space-y-1">
+                <h3 className="text-sm font-medium">Digital Badge</h3>
+                <p className="text-muted-foreground">
+                  Badge ID: {registration.badge_id}
+                </p>
+                <p className="text-muted-foreground">
+                  Issued: {new Date(registration.badge_issued_at).toLocaleString()}
+                </p>
+              </div>
+              <div className="flex justify-center">
+                <div className="bg-white p-4 rounded-lg">
+                  <Image
+                    src={registration.qr_code}
+                    alt="Badge QR Code"
+                    width={200}
+                    height={200}
+                    className="mx-auto"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

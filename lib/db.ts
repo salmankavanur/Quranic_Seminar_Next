@@ -2,8 +2,12 @@ import { MongoClient, ObjectId } from "mongodb"
 import { createHash } from "crypto"
 
 // MongoDB connection string
-const uri = process.env.MONGODB_URI || "mongodb://digibayt.com:27313/numeric_seminar"
-const dbName = "numeric_seminar"
+const uri = process.env.MONGODB_URI
+if (!uri) {
+  throw new Error("Please define the MONGODB_URI environment variable")
+}
+
+const dbName = process.env.MONGODB_DB || "numeric_seminar"
 
 // Create a MongoDB client
 let client: MongoClient
