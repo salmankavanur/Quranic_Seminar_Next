@@ -74,7 +74,7 @@ export function SpeakersSection() {
       name: "Suhail Hidaya Hudawi",
       role: "Moderator",
       designation: "Dean, Kulliyyah of Qur'an & Sunnah",
-      imagePath: "/images/Suhail Hidaya Hudawi.jpeg",
+      imagePath: "/images/Suhail-Hidaya.jpg",
       description: "Suhail Hidaya Hudawi is a distinguished scholar specializing in Quranic studies with extensive experience in Islamic education and research."
     },
     {
