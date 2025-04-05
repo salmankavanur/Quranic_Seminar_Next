@@ -49,7 +49,7 @@ export default function AboutPage() {
           <div className="flex justify-center gap-4 mb-8">
             <div className="inline-flex items-center text-sm gap-1.5 bg-background px-3 py-1.5 rounded-full border">
               <CalendarIcon className="w-4 h-4 text-emerald-500" />
-              <span>April 11, 2025</span>
+              <span>April 10, 2025</span>
             </div>
             <div className="inline-flex items-center text-sm gap-1.5 bg-background px-3 py-1.5 rounded-full border">
               <MapPinIcon className="w-4 h-4 text-emerald-500" />

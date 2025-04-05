@@ -19,7 +19,7 @@ export function AnimatedHeroSection() {
     return (
       <section className="py-12 md:py-20 bg-background text-center px-4">
         <div className="container mx-auto">
-          <p className="text-sm text-muted-foreground mb-4">April 11, 2025 • Akode Islamic Centre</p>
+          <p className="text-sm text-muted-foreground mb-4">April 10, 2025 • Akode Islamic Centre</p>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             National Seminar on
             <br />
@@ -74,7 +74,7 @@ export function AnimatedHeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          April 11, 2025 • Akode Islamic Centre
+          April 10, 2025 • Akode Islamic Centre
         </motion.p>
 
         <motion.h1

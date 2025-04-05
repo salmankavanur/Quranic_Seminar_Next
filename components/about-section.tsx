@@ -125,7 +125,7 @@ export function AboutSection() {
               <ul className="space-y-4">
                 <li className="flex flex-col">
                   <span className="font-medium mb-1">Date:</span>
-                  <span className="text-muted-foreground">April 11, 2025</span>
+                  <span className="text-muted-foreground">April 10, 2025</span>
                 </li>
                 <li className="flex flex-col">
                   <span className="font-medium mb-1">Time:</span>

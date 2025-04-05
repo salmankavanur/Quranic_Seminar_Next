@@ -81,7 +81,7 @@ export function SubmissionGuidelines() {
               </li>
               <li className="flex items-start gap-2">
                 <span>•</span>
-                <span>Date of the Seminar: April 11, 2025</span>
+                <span>Date of the Seminar: April 10, 2025</span>
               </li>
             </ul>
           </div>

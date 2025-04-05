@@ -36,7 +36,7 @@ export function ImportantDates() {
     },
     {
       title: "Date of the Seminar",
-      date: "April 11, 2025",
+      date: "April 10, 2025",
       icon: <Calendar className="w-5 h-5" />
     }
   ]
