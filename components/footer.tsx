@@ -75,7 +75,7 @@ export function Footer() {
             <nav className="flex flex-col space-y-2.5">
               <a href="#" className="text-sm text-muted-foreground hover:text-emerald-500 transition-colors group inline-flex items-center">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/70 mr-2 opacity-0 transform -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"></span>
-                UNIVERSITY OF CALICUT
+                ISLAMIC DA'WA ACADEMY
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-emerald-500 transition-colors group inline-flex items-center">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/70 mr-2 opacity-0 transform -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"></span>
