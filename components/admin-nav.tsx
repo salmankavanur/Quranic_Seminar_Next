@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { LayoutDashboard, Users, FileText, MessageSquare, UserCog, LogOut, Moon, Sun, Menu, X } from "lucide-react"
+import { LayoutDashboard, Users, FileText, MessageSquare, UserCog, LogOut, Moon, Sun, Menu, X, BarChart2 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { logoutAction } from "@/app/actions/auth-actions"
 import { useState } from "react"
@@ -33,6 +33,11 @@ export function AdminNav() {
       href: "/admin/registrations",
       icon: <Users className="h-4 w-4" />,
       label: "Registrations"
+    },
+    {
+      href: "/admin/analytics",
+      icon: <BarChart2 className="h-4 w-4" />,
+      label: "Analytics"
     },
     {
       href: "/admin/submissions",
