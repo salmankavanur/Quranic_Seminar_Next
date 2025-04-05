@@ -7,8 +7,29 @@ const CursorEffect = () => {
   const [dotPosition, setDotPosition] = useState({ x: 0, y: 0 });
   const [ringPosition, setRingPosition] = useState({ x: 0, y: 0 });
   const [cursorVisible, setCursorVisible] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    // Check if we're on desktop (screen width > 768px)
+    const checkIfDesktop = () => {
+      setIsDesktop(window.innerWidth > 768);
+    };
+
+    // Initial check
+    checkIfDesktop();
+
+    // Add resize listener
+    window.addEventListener('resize', checkIfDesktop);
+
+    return () => {
+      window.removeEventListener('resize', checkIfDesktop);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Only run cursor effect on desktop
+    if (!isDesktop) return;
+
     let animationFrameId: number;
     
     const lerp = (start: number, end: number, factor: number) => {
@@ -52,7 +73,10 @@ const CursorEffect = () => {
       document.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [mousePosition]);
+  }, [mousePosition, isDesktop]);
+
+  // Don't render anything on mobile
+  if (!isDesktop) return null;
 
   return (
     <>
@@ -60,7 +84,7 @@ const CursorEffect = () => {
       <div
         className={`fixed pointer-events-none z-50 mix-blend-difference ${
           cursorVisible ? 'opacity-100' : 'opacity-0'
-        }`}
+        } hidden md:block`}
         style={{
           left: `${dotPosition.x}px`,
           top: `${dotPosition.y}px`,
@@ -81,7 +105,7 @@ const CursorEffect = () => {
       <div
         className={`fixed pointer-events-none z-50 mix-blend-difference ${
           cursorVisible ? 'opacity-100' : 'opacity-0'
-        }`}
+        } hidden md:block`}
         style={{
           left: `${ringPosition.x}px`,
           top: `${ringPosition.y}px`,

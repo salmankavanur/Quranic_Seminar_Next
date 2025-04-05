@@ -52,18 +52,28 @@ export default function RegistrationsPage() {
 
   return (
     <div className="container py-8">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:justify-between sm:items-center">
         <h1 className="text-3xl font-bold">Registrations</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <CreateRegistrationDialog />
-          <Button variant="outline" onClick={handleExportCSV}>
-            <Download className="h-4 w-4 mr-2" />
-            Export CSV
-          </Button>
-          <Button variant="outline" onClick={handleExportPDF}>
-            <FileDown className="h-4 w-4 mr-2" />
-            Export PDF
-          </Button>
+          <div className="flex gap-2 w-full sm:w-auto">
+            <Button 
+              variant="outline" 
+              onClick={handleExportCSV}
+              className="flex-1 sm:flex-initial justify-center"
+            >
+              <Download className="h-4 w-4 mr-2" />
+              <span className="whitespace-nowrap">Export CSV</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={handleExportPDF}
+              className="flex-1 sm:flex-initial justify-center"
+            >
+              <FileDown className="h-4 w-4 mr-2" />
+              <span className="whitespace-nowrap">Export PDF</span>
+            </Button>
+          </div>
         </div>
       </div>
 
