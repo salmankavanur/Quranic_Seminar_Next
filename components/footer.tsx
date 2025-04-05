@@ -100,14 +100,14 @@ export function Footer() {
                   loading="lazy"
                 />
               </div>
-              {/* <div className="aspect-square bg-white dark:bg-white rounded-full border-2 border-emerald-500/30 overflow-hidden flex items-center justify-center shadow-sm hover:shadow-md hover:border-emerald-500/70 transition-all duration-300 max-w-[80px] sm:max-w-full">
+              <div className="aspect-square bg-white dark:bg-white rounded-full border-2 border-emerald-500/30 overflow-hidden flex items-center justify-center shadow-sm hover:shadow-md hover:border-emerald-500/70 transition-all duration-300 max-w-[80px] sm:max-w-full">
                 <img 
-                  src="/images/university-logo.png" 
-                  alt="University of Calicut" 
+                  src="/images/dawa_logo.png" 
+                  alt="Islamic Da'wa Academy" 
                   className="w-full h-full object-contain p-2"
                   loading="lazy"
                 />
-              </div> */}
+              </div>
               <div className="aspect-square bg-white dark:bg-gray-800 rounded-full border-2 border-emerald-500/30 overflow-hidden flex items-center justify-center shadow-sm hover:shadow-md hover:border-emerald-500/70 transition-all duration-300 max-w-[80px] sm:max-w-full">
                 <img 
                   src="/images/union-logo.jpg" 
