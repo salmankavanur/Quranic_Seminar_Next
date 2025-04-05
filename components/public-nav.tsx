@@ -47,7 +47,7 @@ export function PublicNav() {
     { href: "/contact", label: "Contact" }
   ]
 
-  const isActive = (path) => {
+  const isActive = (path: string) => {
     if (path === '/') return pathname === '/'
     return pathname === path || pathname.startsWith(path + '/')
   }
