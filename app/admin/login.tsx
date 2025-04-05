@@ -36,8 +36,12 @@ export default function AdminLogin() {
         description: "Logged in successfully",
       })
 
-      router.push("/admin/registrations")
+      // First refresh to update the session
       router.refresh()
+      
+      // Then redirect to admin page
+      router.push("/admin")
+      
     } catch (error) {
       console.error("Login error:", error)
       toast({
@@ -51,16 +55,16 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
       <div className="w-full max-w-md space-y-8 p-8">
         <div className="text-center">
           <h2 className="text-2xl font-bold">Admin Login</h2>
-          <p className="mt-2 text-gray-600">Please sign in to continue</p>
+          <p className="mt-2 text-muted-foreground">Please sign in to continue</p>
         </div>
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium">
                 Email
               </label>
               <Input
@@ -71,10 +75,11 @@ export default function AdminLogin() {
                 required
                 className="mt-1"
                 placeholder="admin@example.com"
+                autoComplete="email"
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium">
                 Password
               </label>
               <Input
@@ -84,6 +89,7 @@ export default function AdminLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="mt-1"
+                autoComplete="current-password"
               />
             </div>
           </div>
