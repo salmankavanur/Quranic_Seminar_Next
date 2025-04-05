@@ -4,19 +4,21 @@ import { isServerAdmin } from "@/lib/server-auth"
 
 export async function GET() {
   try {
-    // Check if user is admin
-    const isAdmin = await isServerAdmin()
-    if (!isAdmin) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
-    }
-
     const registrationsCollection = await getCollection("registrations")
     const registrations = await registrationsCollection.find({}).sort({ created_at: -1 }).toArray()
 
-    return NextResponse.json({ registrations })
+    // Convert MongoDB objects to plain objects for serialization
+    const data = registrations.map((reg) => ({
+      ...reg,
+      _id: reg._id.toString(),
+      created_at: reg.created_at.toISOString(),
+      updated_at: reg.updated_at ? reg.updated_at.toISOString() : null,
+    }))
+
+    return NextResponse.json(data)
   } catch (error) {
     console.error("Error fetching registrations:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    return NextResponse.json({ error: "Failed to fetch registrations" }, { status: 500 })
   }
 }
 
