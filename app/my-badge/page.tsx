@@ -137,74 +137,180 @@ export default function MyBadgePage() {
   }
 
   const handleDownload = async () => {
-    if (!badgeRef.current) return
+    if (!badge || !badgeRef.current) {
+      return;
+    }
 
-    setDownloading(true)
     try {
-      // Create a clone of the badge div without the download button
-      const badgeDiv = badgeRef.current.cloneNode(true) as HTMLDivElement
-      const downloadButton = badgeDiv.querySelector('.download-button')
-      if (downloadButton) {
-        downloadButton.remove()
-      }
-      
-      // Set white background
-      badgeDiv.style.backgroundColor = 'white'
-      badgeDiv.style.padding = '20px'
-      document.body.appendChild(badgeDiv)
+      setDownloading(true);
 
-      const canvas = await html2canvas(badgeDiv, {
-        scale: 2,
-        backgroundColor: 'white',
-      })
-
-      document.body.removeChild(badgeDiv)
-
-      const imgData = canvas.toDataURL('image/png')
+      // Create a new jsPDF instance in portrait mode
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: 'a4',
-      })
+        format: 'a4'
+      });
 
-      const pdfWidth = pdf.internal.pageSize.getWidth()
-      const pdfHeight = pdf.internal.pageSize.getHeight()
-      const imgWidth = canvas.width
-      const imgHeight = canvas.height
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight)
-      const imgX = (pdfWidth - imgWidth * ratio) / 2
-      const imgY = 30 // Add some top margin
+      // Set up the page
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 20; // margin in mm
 
       // Add title
-      pdf.setFontSize(16)
-      pdf.text('Digital Badge - Quranic Seminar', pdfWidth / 2, 20, { align: 'center' })
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(24);
+      const title = "Digital Badge - Quranic Seminar";
+      const titleWidth = pdf.getTextWidth(title);
+      pdf.text(title, (pageWidth - titleWidth) / 2, margin + 10);
 
-      // Add image
-      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio)
+      // Add participant name
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(18);
+      const name = badge.participant_name;
+      const nameWidth = pdf.getTextWidth(name);
+      pdf.text(name, (pageWidth - nameWidth) / 2, margin + 40);
+
+      // Add participant type
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(14);
+      const type = badge.participant_type;
+      const typeWidth = pdf.getTextWidth(type);
+      pdf.text(type, (pageWidth - typeWidth) / 2, margin + 50);
+
+      // Create a temporary div for QR code
+      const tempDiv = document.createElement('div');
+      tempDiv.style.backgroundColor = 'white';
+      tempDiv.style.padding = '20px';
+      tempDiv.style.width = '400px';
+      tempDiv.style.height = '400px';
+      tempDiv.style.display = 'flex';
+      tempDiv.style.alignItems = 'center';
+      tempDiv.style.justifyContent = 'center';
+      
+      // Create image element for QR code
+      const qrImg = document.createElement('img');
+      qrImg.src = badge.qr_code;
+      qrImg.style.width = '360px';
+      qrImg.style.height = '360px';
+      qrImg.style.objectFit = 'contain';
+      
+      tempDiv.appendChild(qrImg);
+      document.body.appendChild(tempDiv);
+
+      // Capture QR code with high quality
+      const qrCanvas = await html2canvas(tempDiv, {
+        backgroundColor: 'white',
+        scale: 4,
+        logging: false,
+        useCORS: true,
+        allowTaint: true
+      });
+
+      // Remove temporary div
+      document.body.removeChild(tempDiv);
+
+      // Calculate QR code dimensions and position
+      const qrWidth = 100; // Larger QR code
+      const qrHeight = 100;
+      const qrX = (pageWidth - qrWidth) / 2;
+      const qrY = margin + 70;
+
+      // Add the QR code image with high quality
+      pdf.addImage(
+        qrCanvas.toDataURL('image/png', 1.0),
+        'PNG',
+        qrX,
+        qrY,
+        qrWidth,
+        qrHeight
+      );
+
+      // Add verification text
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(11);
+      const verificationText = "Present this QR code at the seminar for attendance verification.";
+      const verificationWidth = pdf.getTextWidth(verificationText);
+      pdf.text(verificationText, (pageWidth - verificationWidth) / 2, qrY + qrHeight + 10);
+
+      // Add badge ID
+      const badgeIdText = `Badge ID: ${badge.id}`;
+      const badgeIdWidth = pdf.getTextWidth(badgeIdText);
+      pdf.text(badgeIdText, (pageWidth - badgeIdWidth) / 2, qrY + qrHeight + 20);
 
       // Add footer
-      pdf.setFontSize(10)
-      const footerText = 'This is an official digital badge for the Quranic Seminar. The QR code can be used for attendance verification.'
-      const splitFooter = pdf.splitTextToSize(footerText, pdfWidth - 40)
-      pdf.text(splitFooter, pdfWidth / 2, pdfHeight - 20, { align: 'center' })
+      const footerText = "This is an official digital badge for the Quranic Seminar. The QR code can be used for attendance verification.";
+      const footerWidth = pdf.getTextWidth(footerText);
+      pdf.text(footerText, (pageWidth - footerWidth) / 2, pageHeight - margin);
 
-      pdf.save('digital-badge.pdf')
+      // Save the PDF
+      pdf.save('digital-badge.pdf');
 
       toast({
         title: "Success",
-        description: "Badge has been downloaded successfully.",
-      })
+        description: "Badge downloaded successfully!",
+      });
     } catch (error) {
-      console.error('Error generating PDF:', error)
+      console.error('Error generating PDF:', error);
       toast({
         title: "Error",
-        description: "Failed to download badge. Please try again.",
+        description: "Failed to download badge",
         variant: "destructive",
-      })
+      });
     } finally {
-      setDownloading(false)
+      setDownloading(false);
     }
-  }
+  };
+
+  // Update the badge display section to include proper classes for PDF generation
+  const BadgeDisplay = () => (
+    <div className="mt-8 space-y-6" ref={badgeRef}>
+      <div className="text-center space-y-4">
+        <h2 className="text-2xl font-bold">Digital Badge - Quranic Seminar</h2>
+        <h3 className="text-xl font-semibold">{badge?.participant_name}</h3>
+        <Badge variant="outline" className="text-lg">
+          {badge?.participant_type}
+        </Badge>
+        
+        <div className="qr-code flex justify-center py-4">
+          <div className="bg-white p-4 w-[300px] h-[300px] flex items-center justify-center">
+            <Image
+              src={badge?.qr_code || ''}
+              alt="Badge QR Code"
+              width={280}
+              height={280}
+              className="object-contain"
+              priority
+              quality={100}
+            />
+          </div>
+        </div>
+        
+        <p className="text-sm text-muted-foreground">
+          Present this QR code at the seminar for attendance verification.
+        </p>
+        <p className="text-xs text-muted-foreground">
+          Badge ID: {badge?.id}
+        </p>
+      </div>
+
+      <div className="flex justify-end space-x-2">
+        <Button
+          onClick={handleDownload}
+          disabled={downloading}
+          className="gap-2"
+        >
+          {downloading ? (
+            "Downloading..."
+          ) : (
+            <>
+              <Download className="h-4 w-4" />
+              Download Badge
+            </>
+          )}
+        </Button>
+      </div>
+    </div>
+  );
 
   return (
     <div className="container max-w-2xl py-8">
@@ -327,62 +433,7 @@ export default function MyBadgePage() {
           </Form>
 
           {badge && (
-            <div className="mt-8 space-y-6" ref={badgeRef}>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-medium">Your Digital Badge</h3>
-                  <Button
-                    onClick={handleDownload}
-                    disabled={downloading}
-                    className="download-button gap-2"
-                  >
-                    <Download className="h-4 w-4" />
-                    {downloading ? "Downloading..." : "Download Badge"}
-                  </Button>
-                </div>
-                <div className="grid gap-2">
-                  <div>
-                    <span className="text-sm font-medium">Name:</span>{" "}
-                    <span className="text-sm">{badge.participant_name}</span>
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium">Type:</span>{" "}
-                    <Badge variant="secondary">{badge.participant_type}</Badge>
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium">Issued:</span>{" "}
-                    <span className="text-sm">
-                      {new Date(badge.issued_at).toLocaleString()}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium">Status:</span>{" "}
-                    <Badge
-                      variant={badge.status === "issued" ? "default" : "destructive"}
-                    >
-                      {badge.status}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <div className="bg-white p-4 rounded-lg">
-                  <Image
-                    src={badge.qr_code}
-                    alt="Badge QR Code"
-                    width={200}
-                    height={200}
-                    className="mx-auto"
-                  />
-                </div>
-              </div>
-
-              <div className="text-center text-sm text-muted-foreground">
-                <p>Present this QR code at the seminar for attendance verification.</p>
-                <p>Keep your badge ID safe: {badge.id}</p>
-              </div>
-            </div>
+            <BadgeDisplay />
           )}
         </CardContent>
       </Card>
