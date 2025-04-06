@@ -56,7 +56,7 @@ export function ViewRegistrationDialog({ registration, isOpen, onClose }: ViewRe
 
           <div className="space-y-1">
             <h3 className="text-sm font-medium">Participant Type</h3>
-            <p>
+            <div>
               <Badge
                 variant={
                   registration.participant_type === "Presenter"
@@ -68,16 +68,16 @@ export function ViewRegistrationDialog({ registration, isOpen, onClose }: ViewRe
               >
                 {registration.participant_type}
               </Badge>
-            </p>
+            </div>
           </div>
 
           <div className="space-y-1">
             <h3 className="text-sm font-medium">Status</h3>
-            <p>
+            <div>
               <Badge variant={getStatusVariant(registration.status)}>
                 {registration.status}
               </Badge>
-            </p>
+            </div>
           </div>
 
           {registration.special_requirements && (
