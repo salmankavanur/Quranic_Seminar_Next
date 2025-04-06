@@ -508,14 +508,16 @@ export default function MyBadgePage() {
             </AnimatePresence>
           </CardContent>
           
-          <CardFooter className="border-t bg-muted/20 flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted-foreground">
-            <div className="flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5" />
-              <span>Quranic Seminar - April 10, 2025</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <AlertCircle className="h-3.5 w-3.5" />
-              <span>Keep your badge ID safe</span>
+          <CardFooter className="border-t bg-muted/20 p-4">
+            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">Quranic Seminar - April 10, 2025</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <AlertCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">Keep your badge ID safe</span>
+              </div>
             </div>
           </CardFooter>
         </Card>
