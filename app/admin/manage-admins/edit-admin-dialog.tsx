@@ -12,6 +12,31 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { toast } from "@/components/ui/use-toast"
 
+interface Permissions {
+  manage_registrations?: boolean
+  manage_submissions?: boolean
+  manage_admins?: boolean
+}
+
+interface Admin {
+  _id: string
+  name: string
+  email: string
+  permissions: Permissions
+}
+
+interface CurrentUser {
+  email: string
+  permissions: Permissions
+}
+
+interface EditAdminDialogProps {
+  admin: Admin
+  currentUser: CurrentUser
+  isOpen: boolean
+  onClose: () => void
+}
+
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
@@ -20,23 +45,32 @@ const formSchema = z.object({
     message: "Please enter a valid email address.",
   }),
   permissions: z.object({
-    manage_registrations: z.boolean().default(false),
-    manage_submissions: z.boolean().default(false),
-    manage_admins: z.boolean().default(false),
+    manage_registrations: z.boolean(),
+    manage_submissions: z.boolean(),
+    manage_admins: z.boolean(),
   }),
 })
 
-interface EditAdminDialogProps {
-  admin: any
-  isOpen: boolean
-  onClose: () => void
-}
+type FormValues = z.infer<typeof formSchema>
 
-export function EditAdminDialog({ admin, isOpen, onClose }: EditAdminDialogProps) {
+export function EditAdminDialog({ admin, currentUser, isOpen, onClose }: EditAdminDialogProps) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const isSelf = admin.email === currentUser.email
+  const canManageAdmins = currentUser.permissions?.manage_admins
+  const targetHasManageAdmins = admin.permissions?.manage_admins
+
+  // Check if current user can modify permissions
+  const canModifyPermissions = 
+    // Can always edit self (but not grant manage_admins to self)
+    (isSelf && !targetHasManageAdmins) ||
+    // Must have manage_admins permission to modify others
+    (canManageAdmins && 
+      // Can't modify other admins with manage_admins permission
+      (!targetHasManageAdmins || isSelf))
+
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: admin.name,
@@ -49,7 +83,27 @@ export function EditAdminDialog({ admin, isOpen, onClose }: EditAdminDialogProps
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormValues) {
+    // Prevent granting manage_admins permission if not allowed
+    if (!canManageAdmins && values.permissions.manage_admins) {
+      toast({
+        title: "Permission Denied",
+        description: "You don't have permission to grant admin management privileges.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    // Prevent removing manage_admins from other admins with that permission
+    if (targetHasManageAdmins && !isSelf && !values.permissions.manage_admins) {
+      toast({
+        title: "Permission Denied",
+        description: "You cannot remove admin management privileges from other admins.",
+        variant: "destructive",
+      })
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -130,7 +184,11 @@ export function EditAdminDialog({ admin, isOpen, onClose }: EditAdminDialogProps
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                     <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      <Checkbox 
+                        checked={field.value} 
+                        onCheckedChange={field.onChange}
+                        disabled={!canModifyPermissions}
+                      />
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>Manage Registrations</FormLabel>
@@ -145,7 +203,11 @@ export function EditAdminDialog({ admin, isOpen, onClose }: EditAdminDialogProps
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                     <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      <Checkbox 
+                        checked={field.value} 
+                        onCheckedChange={field.onChange}
+                        disabled={!canModifyPermissions}
+                      />
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>Manage Submissions</FormLabel>
@@ -160,7 +222,11 @@ export function EditAdminDialog({ admin, isOpen, onClose }: EditAdminDialogProps
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                     <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      <Checkbox 
+                        checked={field.value} 
+                        onCheckedChange={field.onChange}
+                        disabled={!canManageAdmins || (targetHasManageAdmins && !isSelf)}
+                      />
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>Manage Admins</FormLabel>

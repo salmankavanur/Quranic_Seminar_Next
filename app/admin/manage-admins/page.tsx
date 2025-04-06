@@ -2,6 +2,7 @@ import { getCollection } from "@/lib/db"
 import { getServerSession } from "@/lib/server-auth"
 import { AdminsClient } from "./admins-client"
 import { AdminHeader } from "./admin-header"
+import { redirect } from "next/navigation"
 
 async function getAdmins() {
   try {
@@ -24,14 +25,29 @@ async function getAdmins() {
 }
 
 export default async function ManageAdminsPage() {
-  const admins = await getAdmins()
   const currentUser = await getServerSession()
-  const currentUserEmail = currentUser?.email || ""
+  
+  if (!currentUser) {
+    redirect("/admin/login")
+  }
+
+  // Only allow access to users with manage_admins permission
+  if (!currentUser.permissions?.manage_admins) {
+    redirect("/admin")
+  }
+
+  const admins = await getAdmins()
 
   return (
     <div className="container py-8 opacity-100 transition-opacity duration-500">
       <AdminHeader />
-      <AdminsClient admins={admins} currentUserEmail={currentUserEmail} />
+      <AdminsClient 
+        admins={admins} 
+        currentUser={{
+          email: currentUser.email,
+          permissions: currentUser.permissions || {}
+        }} 
+      />
     </div>
   )
 }

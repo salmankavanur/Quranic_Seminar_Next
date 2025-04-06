@@ -5,12 +5,32 @@ import { AdminActions } from "./admin-actions"
 import { CreateAdminDialog } from "./create-admin-dialog"
 import { useState } from "react"
 
-interface AdminsClientProps {
-  admins: any[]
-  currentUserEmail: string
+interface Permissions {
+  manage_registrations?: boolean
+  manage_submissions?: boolean
+  manage_admins?: boolean
 }
 
-export function AdminsClient({ admins, currentUserEmail }: AdminsClientProps) {
+interface CurrentUser {
+  email: string
+  permissions: Permissions
+}
+
+interface Admin {
+  _id: string
+  name: string
+  email: string
+  permissions: Permissions
+  created_at: string
+  updated_at: string | null
+}
+
+interface AdminsClientProps {
+  admins: Admin[]
+  currentUser: CurrentUser
+}
+
+export function AdminsClient({ admins, currentUser }: AdminsClientProps) {
   const [searchTerm, setSearchTerm] = useState("")
 
   const filteredAdmins = searchTerm
@@ -20,6 +40,9 @@ export function AdminsClient({ admins, currentUserEmail }: AdminsClientProps) {
           admin.email.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     : admins
+
+  // Only show Create Admin button if user has manage_admins permission
+  const canManageAdmins = currentUser.permissions?.manage_admins
 
   return (
     <>
@@ -48,7 +71,7 @@ export function AdminsClient({ admins, currentUserEmail }: AdminsClientProps) {
             </svg>
           </div>
         </div>
-        <CreateAdminDialog />
+        {canManageAdmins && <CreateAdminDialog />}
       </div>
 
       <div className="border rounded-lg overflow-x-auto">
@@ -63,7 +86,7 @@ export function AdminsClient({ admins, currentUserEmail }: AdminsClientProps) {
           </thead>
           <tbody>
             {filteredAdmins.length > 0 ? (
-              filteredAdmins.map((admin: any) => (
+              filteredAdmins.map((admin) => (
                 <tr key={admin._id} className="border-t hover:bg-muted/50">
                   <td className="px-4 py-3">{admin.name}</td>
                   <td className="px-4 py-3 text-muted-foreground">{admin.email}</td>
@@ -83,7 +106,10 @@ export function AdminsClient({ admins, currentUserEmail }: AdminsClientProps) {
                     </div>
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <AdminActions admin={admin} currentUserEmail={currentUserEmail} />
+                    <AdminActions 
+                      admin={admin} 
+                      currentUser={currentUser}
+                    />
                   </td>
                 </tr>
               ))

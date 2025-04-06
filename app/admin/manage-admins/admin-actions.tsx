@@ -8,19 +8,57 @@ import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { EditAdminDialog } from "./edit-admin-dialog"
 
-interface AdminActionsProps {
-  admin: any
-  currentUserEmail: string
+interface Permissions {
+  manage_registrations?: boolean
+  manage_submissions?: boolean
+  manage_admins?: boolean
 }
 
-export function AdminActions({ admin, currentUserEmail }: AdminActionsProps) {
+interface Admin {
+  _id: string
+  name: string
+  email: string
+  permissions: Permissions
+}
+
+interface CurrentUser {
+  email: string
+  permissions: Permissions
+}
+
+interface AdminActionsProps {
+  admin: Admin
+  currentUser: CurrentUser
+}
+
+export function AdminActions({ admin, currentUser }: AdminActionsProps) {
   const router = useRouter()
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
-  const isSelf = admin.email === currentUserEmail
+  const isSelf = admin.email === currentUser.email
+  const canManageAdmins = currentUser.permissions?.manage_admins
+  const targetHasManageAdmins = admin.permissions?.manage_admins
+
+  // Check if current user can modify the target admin
+  const canModifyAdmin = 
+    // Can always edit self
+    isSelf ||
+    // Must have manage_admins permission to modify others
+    (canManageAdmins && 
+      // Can't modify other admins with manage_admins permission (to prevent privilege escalation)
+      (!targetHasManageAdmins || isSelf))
 
   const handleDelete = async () => {
+    if (!canManageAdmins) {
+      toast({
+        title: "Permission Denied",
+        description: "You don't have permission to delete admin users.",
+        variant: "destructive",
+      })
+      return
+    }
+
     try {
       const response = await fetch(`/api/admins/${admin._id}`, {
         method: "DELETE",
@@ -46,9 +84,18 @@ export function AdminActions({ admin, currentUserEmail }: AdminActionsProps) {
     }
   }
 
+  if (!canModifyAdmin) {
+    return null
+  }
+
   return (
     <div className="flex justify-end space-x-2">
-      <Button variant="ghost" size="icon" onClick={() => setIsEditOpen(true)}>
+      <Button 
+        variant="ghost" 
+        size="icon" 
+        onClick={() => setIsEditOpen(true)}
+        disabled={!canModifyAdmin}
+      >
         <Pencil className="h-4 w-4" />
       </Button>
 
@@ -56,13 +103,18 @@ export function AdminActions({ admin, currentUserEmail }: AdminActionsProps) {
         variant="ghost"
         size="icon"
         onClick={() => setIsDeleteOpen(true)}
-        disabled={isSelf} // Prevent deleting yourself
+        disabled={isSelf || !canManageAdmins || targetHasManageAdmins}
         className={isSelf ? "opacity-50 cursor-not-allowed" : ""}
       >
         <Trash2 className="h-4 w-4" />
       </Button>
 
-      <EditAdminDialog admin={admin} isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} />
+      <EditAdminDialog 
+        admin={admin} 
+        isOpen={isEditOpen} 
+        onClose={() => setIsEditOpen(false)}
+        currentUser={currentUser}
+      />
 
       <ConfirmDialog
         isOpen={isDeleteOpen}
@@ -72,6 +124,8 @@ export function AdminActions({ admin, currentUserEmail }: AdminActionsProps) {
         description={
           isSelf
             ? "You cannot delete your own account."
+            : targetHasManageAdmins
+            ? "You cannot delete an admin with manage admins permission."
             : "Are you sure you want to delete this admin user? This action cannot be undone."
         }
         confirmText="Delete"
