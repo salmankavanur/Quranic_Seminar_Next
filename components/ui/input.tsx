@@ -4,24 +4,10 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 // Define props interface to explicitly allow fdprocessedid
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  fdprocessedid?: string; // Optional prop to handle server-injected attribute
-}
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, fdprocessedid, ...props }, ref) => {
-    // Use a ref to track if this is the initial render (server-like state)
-    const isInitialRender = React.useRef(true);
-
-    React.useEffect(() => {
-      // After the first render, mark as non-initial (client-side)
-      isInitialRender.current = false;
-    }, []);
-
-    // On initial render (server-like), include fdprocessedid if provided; skip on client unless explicitly passed
-    const serverProps =
-      isInitialRender.current && fdprocessedid ? { "fdprocessedid": fdprocessedid } : {};
-
+  ({ className, type, ...props }, ref) => {
     return (
       <input
         type={type}
@@ -30,19 +16,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className
         )}
         ref={ref}
+        suppressHydrationWarning
         {...props}
-        {...serverProps} // Conditionally apply server-specific attributes
       />
     );
   }
 );
 Input.displayName = "Input";
 
-// Wrap in Suspense to handle any remaining hydration issues
-const SafeInput = (props: InputProps) => (
-  <React.Suspense fallback={<input {...props} disabled />}>
-    <Input {...props} />
-  </React.Suspense>
-);
-
-export { SafeInput as Input };
+// Remove Suspense wrapper since we're using suppressHydrationWarning
+export { Input };

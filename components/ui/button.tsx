@@ -39,47 +39,21 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
-  fdprocessedid?: string; // Explicitly allow fdprocessedid as an optional prop
 }
 
-// Custom hook to detect if we're on the client side
-const useIsClient = () => {
-  const [isClient, setIsClient] = React.useState(false);
-  React.useEffect(() => {
-    setIsClient(true);
-  }, []);
-  return isClient;
-};
-
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    { className, variant, size, asChild = false, fdprocessedid, ...props },
-    ref
-  ) => {
-    const isClient = useIsClient();
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-
-    // On the server (initial render), include fdprocessedid if provided; on the client, ignore unless explicitly passed
-    const serverProps =
-      !isClient && fdprocessedid ? { "fdprocessedid": fdprocessedid } : {};
-
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        suppressHydrationWarning
         {...props}
-        {...serverProps} // Conditionally apply server-specific attributes
       />
     );
   }
 );
 Button.displayName = "Button";
 
-// Wrap the Button in a Suspense boundary to avoid hydration mismatches
-const SafeButton = (props: ButtonProps) => (
-  <React.Suspense fallback={<button {...props} disabled />}>
-    <Button {...props} />
-  </React.Suspense>
-);
-
-export { SafeButton as Button, buttonVariants };
+export { Button, buttonVariants };
