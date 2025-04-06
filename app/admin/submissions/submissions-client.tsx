@@ -1,57 +1,62 @@
-"use client"
+"use client"; // Mark as a Client Component
 
-import type React from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { FileDown } from "lucide-react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { SubmissionActions } from "./submission-actions"
-import { Badge } from "@/components/ui/badge"
-import { useState } from "react"
+import type React from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"; // Uses the fixed SafeInput
+import { FileDown } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SubmissionActions } from "./submission-actions";
+import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 
 // Helper function to create download URL
 function getDownloadUrl(filePath: string) {
-  if (!filePath) return null
+  if (!filePath) return null;
 
   try {
-    const url = new URL(filePath)
-    const path = url.pathname.split("/public/")[1]
+    const url = new URL(filePath);
+    const path = url.pathname.split("/public/")[1];
 
-    if (!path) return null
+    if (!path) return null;
 
-    const bucket = url.pathname.includes("/submissions/") ? "submissions" : "documents"
-    const fileName = path.split("/").pop()
+    const bucket = url.pathname.includes("/submissions/") ? "submissions" : "documents";
+    const fileName = path.split("/").pop();
 
-    return `/api/download?path=${encodeURIComponent(path)}&bucket=${bucket}&filename=${encodeURIComponent(fileName)}`
+    return `/api/download?path=${encodeURIComponent(path)}&bucket=${bucket}&filename=${encodeURIComponent(fileName)}`;
   } catch (error) {
-    console.error("Error creating download URL:", error)
-    return null
+    console.error("Error creating download URL:", error);
+    return null;
   }
 }
 
 interface SubmissionsClientProps {
-  abstracts: any[]
-  papers: any[]
+  abstracts: any[];
+  papers: any[];
   abstractCounts: {
-    all: number
-    pending: number
-    accepted: number
-    rejected: number
-  }
+    all: number;
+    pending: number;
+    accepted: number;
+    rejected: number;
+  };
   paperCounts: {
-    all: number
-    pending: number
-    accepted: number
-    rejected: number
-    qualified: number
-  }
+    all: number;
+    pending: number;
+    accepted: number;
+    rejected: number;
+    qualified: number;
+  };
 }
 
-export function SubmissionsClient({ abstracts, papers, abstractCounts, paperCounts }: SubmissionsClientProps) {
-  const [activeTab, setActiveTab] = useState("abstracts")
-  const [paperFilter, setPaperFilter] = useState("all")
-  const [abstractFilter, setAbstractFilter] = useState("all")
-  const [searchTerm, setSearchTerm] = useState("")
+export function SubmissionsClient({
+  abstracts,
+  papers,
+  abstractCounts,
+  paperCounts,
+}: SubmissionsClientProps) {
+  const [activeTab, setActiveTab] = useState("abstracts");
+  const [paperFilter, setPaperFilter] = useState("all");
+  const [abstractFilter, setAbstractFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const filteredAbstracts = abstracts
     .filter((abstract) => abstractFilter === "all" || abstract.status === abstractFilter)
@@ -59,8 +64,8 @@ export function SubmissionsClient({ abstracts, papers, abstractCounts, paperCoun
       (abstract) =>
         abstract.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         abstract.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        abstract.last_name.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
+        abstract.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   const filteredPapers = papers
     .filter((paper) => paperFilter === "all" || paper.status === paperFilter)
@@ -68,18 +73,18 @@ export function SubmissionsClient({ abstracts, papers, abstractCounts, paperCoun
       (paper) =>
         paper.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         paper.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        paper.last_name.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
+        paper.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    const link = document.createElement("a")
-    link.href = href
-    link.setAttribute("download", "")
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
+    e.preventDefault();
+    const link = document.createElement("a");
+    link.href = href;
+    link.setAttribute("download", "");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <Tabs defaultValue="abstracts" onValueChange={setActiveTab}>
@@ -174,14 +179,16 @@ export function SubmissionsClient({ abstracts, papers, abstractCounts, paperCoun
                           abstract.status === "accepted"
                             ? "success"
                             : abstract.status === "rejected"
-                              ? "destructive"
-                              : "outline"
+                            ? "destructive"
+                            : "outline"
                         }
                       >
                         {abstract.status}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3">{new Date(abstract.created_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3">
+                      {new Date(abstract.created_at).toLocaleDateString()}
+                    </td>
                     <td className="px-4 py-3 text-right">
                       <SubmissionActions submission={abstract} type="abstract" />
                     </td>
@@ -307,16 +314,18 @@ export function SubmissionsClient({ abstracts, papers, abstractCounts, paperCoun
                           paper.status === "qualified"
                             ? "warning"
                             : paper.status === "accepted"
-                              ? "success"
-                              : paper.status === "rejected"
-                                ? "destructive"
-                                : "outline"
+                            ? "success"
+                            : paper.status === "rejected"
+                            ? "destructive"
+                            : "outline"
                         }
                       >
                         {paper.status === "qualified" ? "Qualified for Presentation" : paper.status}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3">{new Date(paper.created_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3">
+                      {new Date(paper.created_at).toLocaleDateString()}
+                    </td>
                     <td className="px-4 py-3 text-right">
                       <SubmissionActions submission={paper} type="paper" />
                     </td>
@@ -334,5 +343,5 @@ export function SubmissionsClient({ abstracts, papers, abstractCounts, paperCoun
         </div>
       </TabsContent>
     </Tabs>
-  )
+  );
 }

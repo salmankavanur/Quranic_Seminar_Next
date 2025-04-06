@@ -1,9 +1,11 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+"use client"; // Add this directive to mark as a Client Component
 
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
+// Define button variants with CVA
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
@@ -31,26 +33,53 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  asChild?: boolean;
+  fdprocessedid?: string; // Explicitly allow fdprocessedid as an optional prop
 }
 
+// Custom hook to detect if we're on the client side
+const useIsClient = () => {
+  const [isClient, setIsClient] = React.useState(false);
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
+  return isClient;
+};
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+  (
+    { className, variant, size, asChild = false, fdprocessedid, ...props },
+    ref
+  ) => {
+    const isClient = useIsClient();
+    const Comp = asChild ? Slot : "button";
+
+    // On the server (initial render), include fdprocessedid if provided; on the client, ignore unless explicitly passed
+    const serverProps =
+      !isClient && fdprocessedid ? { "fdprocessedid": fdprocessedid } : {};
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
+        {...serverProps} // Conditionally apply server-specific attributes
       />
-    )
+    );
   }
-)
-Button.displayName = "Button"
+);
+Button.displayName = "Button";
 
-export { Button, buttonVariants }
+// Wrap the Button in a Suspense boundary to avoid hydration mismatches
+const SafeButton = (props: ButtonProps) => (
+  <React.Suspense fallback={<button {...props} disabled />}>
+    <Button {...props} />
+  </React.Suspense>
+);
+
+export { SafeButton as Button, buttonVariants };
