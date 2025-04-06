@@ -93,8 +93,8 @@ export default function RootLayout({
               "@type": "Event",
               "name": "National Seminar on Numerical Inimitability in the Holy Quran",
               "description": "A seminar exploring the mathematical patterns in the Holy Quran as evidence of divine precision.",
-              "startDate": "2025-04-15T09:00:00+05:30",
-              "endDate": "2025-04-15T17:00:00+05:30",
+              "startDate": "2025-04-10T09:00:00+05:30",
+              "endDate": "2025-04-10T17:00:00+05:30",
               "location": {
                 "@type": "Place",
                 "name": "Akode Islamic Centre",
