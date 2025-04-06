@@ -265,36 +265,43 @@ export default async function AdminDashboard() {
             </Link>
           </CardHeader>
           <CardContent>
-            <div className="rounded-md border overflow-hidden">
-              <div className="grid grid-cols-12 bg-muted/50 text-xs font-medium p-3">
-                <div className="col-span-4">Name</div>
-                <div className="col-span-4">Email</div>
-                <div className="col-span-2">Type</div>
-                <div className="col-span-2">Date</div>
-              </div>
-
-              <div className="divide-y divide-border">
-                {stats.recentRegistrations.length > 0 ? (
-                  stats.recentRegistrations.map((reg: any) => (
-                    <div key={reg._id.toString()} className="grid grid-cols-12 text-sm p-3 hover:bg-muted/30 transition-colors">
-                      <div className="col-span-4 font-medium truncate">
-                        {reg.first_name} {reg.last_name}
-                      </div>
-                      <div className="col-span-4 text-muted-foreground truncate">{reg.email}</div>
-                      <div className="col-span-2">
-                        <StatusIndicator status={reg.status || 'pending'} />
-                      </div>
-                      <div className="col-span-2 text-xs text-muted-foreground">
-                        {new Date(reg.created_at).toLocaleDateString()}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-6 text-muted-foreground">No registrations yet</div>
-                )}
-              </div>
-            </div>
-          </CardContent>
+  <div className="rounded-md border overflow-hidden">
+    <table className="w-full">
+      <thead>
+        <tr className="bg-muted/50 text-xs font-medium">
+          <th className="text-left p-3 w-1/3">Name</th>
+          <th className="text-left p-3 w-1/3">Email</th>
+          <th className="text-left p-3 w-1/6">Status</th>
+          <th className="text-left p-3 w-1/6">Date</th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-border">
+        {stats.recentRegistrations.length > 0 ? (
+          stats.recentRegistrations.map((reg: any) => (
+            <tr key={reg._id.toString()} className="hover:bg-muted/30 transition-colors">
+              <td className="p-3 font-medium truncate">
+                {reg.first_name} {reg.last_name}
+              </td>
+              <td className="p-3 text-muted-foreground truncate">{reg.email}</td>
+              <td className="p-3">
+                <StatusIndicator status={reg.status || 'pending'} />
+              </td>
+              <td className="p-3 text-xs text-muted-foreground">
+                {new Date(reg.created_at).toLocaleDateString()}
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={4} className="text-center py-6 text-muted-foreground">
+              No registrations yet
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</CardContent>
           <CardFooter className="text-xs text-muted-foreground border-t pt-3">
             Showing {stats.recentRegistrations.length} of {stats.registrationsCount} total registrations
           </CardFooter>
