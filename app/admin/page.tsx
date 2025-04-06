@@ -43,7 +43,7 @@ async function getDashboardStats() {
 
     // Get seminar date
     const settings = await settingsCollection.findOne({})
-    const seminarDate = settings ? new Date(settings.seminar_date) : new Date("2025-04-15")
+    const seminarDate = settings ? new Date(settings.seminar_date) : new Date("2025-04-10")
     const currentDate = new Date()
     const daysRemaining = Math.ceil((seminarDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24))
 
