@@ -46,7 +46,7 @@ export async function GET() {
     ])
 
     // Get seminar date
-    const seminarDate = settings ? new Date(settings.seminar_date) : new Date("2025-04-15")
+    const seminarDate = settings ? new Date(settings.seminar_date) : new Date("2025-04-10")
     const currentDate = new Date()
     const daysRemaining = Math.max(0, Math.ceil((seminarDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)))
 
@@ -94,7 +94,7 @@ export async function GET() {
       abstractStats: { accepted: 0, pending: 0, rejected: 0 },
       paperStats: { accepted: 0, pending: 0, rejected: 0 },
       registrationsToday: 0,
-      seminarDate: new Date("2025-04-15")
+      seminarDate: new Date("2025-04-10")
     })
   }
 } 
