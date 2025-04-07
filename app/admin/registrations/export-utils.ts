@@ -9,6 +9,7 @@ export const exportToCSV = (registrations: Registration[]) => {
     'First Name',
     'Last Name',
     'Email',
+    'Phone',
     'Institution',
     'Participant Type',
     'Status',
@@ -20,6 +21,7 @@ export const exportToCSV = (registrations: Registration[]) => {
     reg.first_name,
     reg.last_name,
     reg.email,
+    reg.phone || '',
     reg.institution,
     reg.participant_type,
     reg.status,
@@ -54,6 +56,7 @@ export const exportToPDF = (registrations: Registration[]) => {
   const columns = [
     'Name',
     'Email',
+    'Phone',
     'Institution',
     'Type',
     'Status',
@@ -64,6 +67,7 @@ export const exportToPDF = (registrations: Registration[]) => {
   const data = registrations.map(reg => [
     `${reg.first_name} ${reg.last_name}`,
     reg.email,
+    reg.phone || '',
     reg.institution,
     reg.participant_type,
     reg.status,

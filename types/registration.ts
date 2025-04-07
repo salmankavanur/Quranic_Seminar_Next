@@ -3,6 +3,7 @@ export interface Registration {
   first_name: string;
   last_name: string;
   email: string;
+  phone?: string;
   institution: string;
   participant_type: 'Presenter' | 'Student' | 'Attendee';
   status: 'pending' | 'confirmed' | 'rejected';
